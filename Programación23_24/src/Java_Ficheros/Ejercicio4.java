@@ -54,6 +54,29 @@ public class Ejercicio4 {
 		return "";
 	}
 	
+	public static String buscar (String[] nombres, String[] tipos, int[] niveles, int[] ataques, int[] defensas, int[] velocidades) {
+		
+		Scanner sc = new Scanner (System.in);
+		int num = 0;
+		System.out.print("Qué pokemon quieres ver? ");
+		String pokemon = sc.next();
+		for (int x = 0; x < nombres.length; x++) {
+			
+			if (nombres[x].equalsIgnoreCase(pokemon)) {
+				num = x;
+				
+			}
+		}
+		
+		System.out.println("----" + nombres[num] + "----");
+		System.out.println("tipo: " + tipos[num]);
+		System.out.println("nivel: " + niveles[num]);
+		System.out.println("ataque: " + ataques[num]);
+		System.out.println("defensa: " + defensas[num]);
+		System.out.println("velocidad: " + velocidades[num]);
+		
+		return "";
+	}
 
 	public static void main(String[] args) throws IOException {
 
@@ -61,8 +84,6 @@ public class Ejercicio4 {
 		FileReader fr = new FileReader(f);
 		BufferedReader br = new BufferedReader(fr);
 		
-		
-
 		Scanner sc = new Scanner (System.in);
 		
 		String[] Partes;
@@ -135,7 +156,12 @@ public class Ejercicio4 {
 			
 			break;
 			
-		
+		case 5:
+			System.out.println("------------------------");
+			buscar (nombres,tipos, niveles, ataques, defensas, velocidades);
+			
+			
+			break;
 		
 		
 		
