@@ -13,4 +13,26 @@ public class Alumno {
 		
 	}
 
+	public String getNombre() {
+		return nombre;
+	}
+
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+
+	public ArrayList<Double> getNotas() {
+		return notas;
+	}
+
+	public void setNotas(ArrayList<Double> notas) {
+		this.notas = notas;
+	}
+	
+	
+	
+	
+	
+	
+
 }
