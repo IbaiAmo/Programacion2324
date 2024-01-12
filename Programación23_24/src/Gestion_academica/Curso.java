@@ -8,22 +8,22 @@ public class Curso {
 	private String titulo;
 	private String descripcion;
 	private String profesor;
-	private ArrayList<String> listaAlumnos=new ArrayList();
+	private ArrayList<Alumno> listaAlumnos=new ArrayList();
 	
-	public Curso() {
-	}
+//	public Curso() {
+//	}
 
 //	public Curso(String titulo, String descripcion) {
 //		this.titulo = titulo;
 //		this.descripcion = descripcion;
 //	}
 //
-//	public Curso(String titulo, String descripcion, String profesor, ArrayList<String> listaAlumnos) {
-//		this.titulo = titulo;
-//		this.descripcion = descripcion;
-//		this.profesor = profesor;
-//		this.listaAlumnos = listaAlumnos;
-//	}
+	public Curso(String titulo, String descripcion, String profesor, ArrayList<Alumno> listaAlumnos) {
+		this.titulo = titulo;
+		this.descripcion = descripcion;
+		this.profesor = profesor;
+		this.listaAlumnos = listaAlumnos;
+	}
 
 	public String getTitulo() {
 		return titulo;
@@ -49,14 +49,18 @@ public class Curso {
 		this.profesor = profesor;
 	}
 
-	public ArrayList<String> getListaAlumnos() {
+	public ArrayList<Alumno> getListaAlumnos() {
 		return listaAlumnos;
 	}
 
-	public void setListaAlumnos(ArrayList<String> listaAlumnos) {
+	public void setListaAlumnos(ArrayList<Alumno> listaAlumnos) {
 		this.listaAlumnos = listaAlumnos;
 	}
 
+	public void anyadirAlumno(Alumno a) {
+		this.getListaAlumnos().add(a);
+	}
+	
 	@Override
 	public String toString() {
 		return "Curso [titulo=" + titulo + ", descripcion=" + descripcion + ", profesor=" + profesor + ", listaAlumnos="
@@ -64,12 +68,7 @@ public class Curso {
 	}
 	
 	
-	public void anyadirAlumno () {
-		Scanner sc = new Scanner(System.in);
-		System.out.print("A qué alumno quieres meter en el curso? ");
-		String alumno = sc.next();
-		this.listaAlumnos.add(alumno);
-	}
+	
 	
 	
 	

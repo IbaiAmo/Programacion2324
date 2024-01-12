@@ -6,8 +6,11 @@ public class Alumno {
 	private int edad;
 	private String curso;
 	
+	public Alumno () {
+		
+	}
+	
 	public Alumno(String nombre, int edad, String curso) {
-		super();
 		this.nombre = nombre;
 		this.edad = edad;
 		this.curso = curso;
@@ -39,7 +42,7 @@ public class Alumno {
 
 	@Override
 	public String toString() {
-		return "Alumno [nombre=" + nombre + ", edad=" + edad + ", curso=" + curso + "]";
+		return "Alumno [El nombre del alumno es " + nombre + ", tiene " + edad + " años y está en el curso " + curso+ "]";
 	}
 	
 	
