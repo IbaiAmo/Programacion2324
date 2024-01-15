@@ -4,7 +4,114 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Gestion_ejercicio3 {
+	
+	public static void Menu1 (ArrayList<Alumno> nombresAlumnos) {
 
+
+		Scanner sc = new Scanner (System.in);
+		
+		System.out.print("Cómo se llama el alumno? ");
+		String nombre = sc.next();
+		System.out.print("Cuántos años tiene?");
+		int edad = sc.nextInt();
+		
+		Alumno alumno = new Alumno(nombre, edad ,"");
+		nombresAlumnos.add(alumno);	
+	}
+
+	public static void Menu2 (ArrayList<Curso> listacursos , ArrayList<Alumno> nombresAlumnos) {
+		
+		Scanner sc = new Scanner (System.in);
+		
+//		ArrayList<String> nombAlum = new ArrayList<String>();
+		
+		System.out.print("Curso: ");
+		String curso = sc.next();
+		System.out.print("Descripcion: ");
+		String descripcion = sc.nextLine();
+		descripcion = sc.nextLine();
+		System.out.println("Profesor: ");
+		String profesor = sc.next();
+		
+//		for (int i = 0; i <nombresAlumnos.size();i++) {		Esto es para guardar los nombres de cada clase en un arraylist.
+//			nombAlum.add(nombresAlumnos.get(i).getNombre());
+//		}
+		
+		Curso c = new Curso(curso, descripcion, profesor, nombresAlumnos);
+		listacursos.add(c);	
+		
+	}
+	
+ 	public static void Menu3 (ArrayList<Alumno> nombresAlumnos) {
+		
+ 		Scanner sc = new Scanner (System.in);
+		
+		boolean identificador = false;
+		int numInfo = 0;
+		String nombInfo = "";
+		
+		do {
+		System.out.print("Nombre del alumno: ");
+		nombInfo = sc.next();
+		
+		for (int i = 0; i < nombresAlumnos.size(); i++) {
+			
+			if (nombresAlumnos.get(i).getNombre().equalsIgnoreCase(nombInfo)) {
+				identificador = true;
+				numInfo = i;
+				
+			}
+		}
+		
+		if (identificador) {
+			System.out.println(nombresAlumnos.get(numInfo).toString());
+		}else {
+			System.out.println("No hay ningún alumno con ese nombre");
+		}
+		
+		}while (!nombresAlumnos.get(numInfo).getNombre().equalsIgnoreCase(nombInfo));
+		
+
+	}
+
+ 	public static void Menu4 (ArrayList<Curso> listacursos) {
+ 		
+ 		Scanner sc = new Scanner (System.in);
+		
+		boolean identificador = false;
+		int numInfo = 0;
+		String tituloInfo = "";
+		
+		do {
+		System.out.print("Nombre del curso: ");
+		tituloInfo = sc.next();
+		
+		for (int i = 0; i < listacursos.size(); i++) {
+			
+			if (listacursos.get(i).getTitulo().equalsIgnoreCase(tituloInfo)) {
+				identificador = true;
+				numInfo = i;
+				
+			}
+		}
+		
+		if (identificador) {
+			System.out.println(listacursos.get(numInfo).toString());
+		}else {
+			System.out.println("No hay ningún curso con ese nombre");
+		}
+		
+		}while (!listacursos.get(numInfo).getTitulo().equalsIgnoreCase(tituloInfo));
+ 		
+ 		
+ 	}
+
+ 	public static void Menu5 (ArrayList<Curso> listacursos , ArrayList<Alumno> nombresAlumnos) {
+ 		
+ 		
+ 		
+ 	}
+ 	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		
@@ -32,31 +139,26 @@ public class Gestion_ejercicio3 {
 			
 			case 1:
 				System.out.println("------------------------");
-				
-				System.out.print("Cómo se llama el alumno? ");
-				String nombre = sc.next();
-				System.out.println("Cuántos años tiene?");
-				int edad = sc.nextInt();
-				
-				Alumno alumno = new Alumno(nombre, edad ,"");
-				nombresAlumnos.add(alumno);	
-				System.out.println(nombresAlumnos.toString());
-				
+				Menu1 (nombresAlumnos);
+
 				break;
 				
 			case 2:
 				System.out.println("------------------------");
+				Menu2 (listacursos , nombresAlumnos);
 				
 				break;
 				
 			case 3:
 				System.out.println("------------------------");
-	
+				Menu3 (nombresAlumnos);
+				
 				break;
 	
 			case 4:
 				System.out.println("------------------------");
-	
+				Menu4 (listacursos);
+				
 				break;
 	
 			case 5:
