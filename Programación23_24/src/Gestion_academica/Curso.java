@@ -63,7 +63,7 @@ public class Curso {
 	
 	@Override
 	public String toString() {
-		return "Curso [titulo=" + titulo + ", descripcion=" + descripcion + ", profesor=" + profesor + ", listaAlumnos="
+		return "Curso [Esto es el curso de " + titulo + " (" + descripcion + "). El profesor es " + profesor + " y estos son los alumnos "
 				+ listaAlumnos + "]";
 	}
 	

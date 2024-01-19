@@ -1,5 +1,6 @@
 package Gestion_academica;
 
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -12,10 +13,12 @@ public class Gestion_ejercicio3 {
 		
 		System.out.print("Cómo se llama el alumno? ");
 		String nombre = sc.next();
-		System.out.print("Cuántos años tiene?");
+		System.out.print("Cuántos años tiene? ");
 		int edad = sc.nextInt();
+		System.out.print("Curso: ");
+		String curso = sc.next();
 		
-		Alumno alumno = new Alumno(nombre, edad ,"");
+		Alumno alumno = new Alumno(nombre, edad , curso);
 		nombresAlumnos.add(alumno);	
 	}
 
@@ -23,7 +26,7 @@ public class Gestion_ejercicio3 {
 		
 		Scanner sc = new Scanner (System.in);
 		
-//		ArrayList<String> nombAlum = new ArrayList<String>();
+
 		
 		System.out.print("Curso: ");
 		String curso = sc.next();
@@ -33,9 +36,7 @@ public class Gestion_ejercicio3 {
 		System.out.println("Profesor: ");
 		String profesor = sc.next();
 		
-//		for (int i = 0; i <nombresAlumnos.size();i++) {		Esto es para guardar los nombres de cada clase en un arraylist.
-//			nombAlum.add(nombresAlumnos.get(i).getNombre());
-//		}
+
 		
 		Curso c = new Curso(curso, descripcion, profesor, nombresAlumnos);
 		listacursos.add(c);	
@@ -108,11 +109,19 @@ public class Gestion_ejercicio3 {
 
  	public static void Menu5 (ArrayList<Curso> listacursos , ArrayList<Alumno> nombresAlumnos) {
  		
+//		ArrayList<String> nombAlum = new ArrayList<String>();
+ 		
+//		for (int i = 0; i <nombresAlumnos.size();i++) {
+//			nombAlum.add(nombresAlumnos.get(i).getNombre());
+//			
+//		}
+		
+		
  		
  		
  	}
  	
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException{
 		// TODO Auto-generated method stub
 		
 		Scanner sc = new Scanner (System.in);
@@ -134,6 +143,11 @@ public class Gestion_ejercicio3 {
 			
 			System.out.print("Elige una opción: ");
 			opc = sc.nextInt();
+			
+			while (opc < 1 || opc > 6) {
+				System.out.print("Elige una opción válida: ");
+				opc = sc.nextInt();
+			}
 			
 			switch (opc) {
 			
