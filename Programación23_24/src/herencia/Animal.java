@@ -1,7 +1,7 @@
 package herencia;
 
 public class Animal {
-	
+
 	private String nombre;
 	private String descripcion;
 	private int edad;
@@ -10,7 +10,6 @@ public class Animal {
 		this.descripcion = descripcion;
 		this.edad = edad;
 	}
-	
 	public String getNombre() {
 		return nombre;
 	}
@@ -29,7 +28,6 @@ public class Animal {
 	public void setEdad(int edad) {
 		this.edad = edad;
 	}
-
 	@Override
 	public String toString() {
 		return "Animal [nombre=" + nombre + ", descripcion=" + descripcion + ", edad=" + edad + "]";
@@ -38,6 +36,4 @@ public class Animal {
 	
 	
 	
-	
-
 }

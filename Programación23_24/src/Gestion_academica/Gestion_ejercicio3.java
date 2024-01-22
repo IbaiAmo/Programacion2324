@@ -111,13 +111,7 @@ public class Gestion_ejercicio3 {
  	}
 
  	
- 	/**
- 	 * 
- 	 * @param listacursos
- 	 * @param nombresAlumnos
- 	 * @throws IOException
- 	 *
- 	 */
+ 	
  	
  	public static void Menu5 (ArrayList<Curso> listacursos , ArrayList<Alumno> nombresAlumnos) throws IOException{
  		

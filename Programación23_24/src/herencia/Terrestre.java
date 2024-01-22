@@ -1,6 +1,7 @@
 package herencia;
 
 public class Terrestre extends Animal{
+
 	private int km;
 
 	public Terrestre(String nombre, String descripcion, int edad, int km) {
@@ -21,8 +22,7 @@ public class Terrestre extends Animal{
 		return "Terrestre [km=" + km + ", getNombre()=" + getNombre() + ", getDescripcion()=" + getDescripcion()
 				+ ", getEdad()=" + getEdad() + "]";
 	}
-
 	
 	
-
+	
 }
