@@ -1,12 +1,14 @@
 package Gestion_academica;
 
-import java.io.*;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Gestion_ejercicio3 {
 	
-	public static void Menu1 (ArrayList<Alumno> nombresAlumnos) {
+	public static void Menu1 (ArrayList<Alumno> nombresAlumnos){
 
 
 		Scanner sc = new Scanner (System.in);
@@ -21,7 +23,8 @@ public class Gestion_ejercicio3 {
 		Alumno alumno = new Alumno(nombre, edad , curso);
 		nombresAlumnos.add(alumno);	
 	}
-
+	
+	
 	public static void Menu2 (ArrayList<Curso> listacursos , ArrayList<Alumno> nombresAlumnos) {
 		
 		Scanner sc = new Scanner (System.in);
@@ -107,17 +110,29 @@ public class Gestion_ejercicio3 {
  		
  	}
 
- 	public static void Menu5 (ArrayList<Curso> listacursos , ArrayList<Alumno> nombresAlumnos) {
+ 	
+ 	/**
+ 	 * 
+ 	 * @param listacursos
+ 	 * @param nombresAlumnos
+ 	 * @throws IOException
+ 	 *
+ 	 */
+ 	
+ 	public static void Menu5 (ArrayList<Curso> listacursos , ArrayList<Alumno> nombresAlumnos) throws IOException{
  		
-//		ArrayList<String> nombAlum = new ArrayList<String>();
+		String nombresfichero = "";
  		
-//		for (int i = 0; i <nombresAlumnos.size();i++) {
-//			nombAlum.add(nombresAlumnos.get(i).getNombre());
-//			
-//		}
+		for (int i = 0; i <nombresAlumnos.size();i++) {
+			nombresfichero += nombresAlumnos.get(i).getNombre() + ","; 
+			
+		}
 		
+		BufferedWriter bw = new BufferedWriter(new FileWriter("src/Gestion_academica/Alumnos.txt"));
 		
- 		
+		bw.write(nombresfichero);
+		bw.flush();
+		bw.close();
  		
  	}
  	
@@ -177,7 +192,8 @@ public class Gestion_ejercicio3 {
 	
 			case 5:
 				System.out.println("------------------------");
-	
+				Menu5 (listacursos , nombresAlumnos);
+				
 				break;
 	
 			case 6:
