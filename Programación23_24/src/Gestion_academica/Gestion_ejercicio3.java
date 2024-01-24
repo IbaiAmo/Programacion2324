@@ -24,7 +24,6 @@ public class Gestion_ejercicio3 {
 		nombresAlumnos.add(alumno);	
 	}
 	
-	
 	public static void Menu2 (ArrayList<Curso> listacursos , ArrayList<Alumno> nombresAlumnos) {
 		
 		Scanner sc = new Scanner (System.in);
@@ -109,22 +108,17 @@ public class Gestion_ejercicio3 {
  		
  		
  	}
-
- 	
- 	
- 	
+	
  	public static void Menu5 (ArrayList<Curso> listacursos , ArrayList<Alumno> nombresAlumnos) throws IOException{
  		
 		String nombresfichero = "";
+		BufferedWriter bw = new BufferedWriter(new FileWriter("src/Gestion_academica/Alumnos.txt"));
  		
 		for (int i = 0; i <nombresAlumnos.size();i++) {
-			nombresfichero += nombresAlumnos.get(i).getNombre() + ","; 
 			
+			bw.write(nombresAlumnos.get(i).getNombre() + "," + nombresAlumnos.get(i).getEdad() + "," + nombresAlumnos.get(i).getCurso() + "\n");
 		}
-		
-		BufferedWriter bw = new BufferedWriter(new FileWriter("src/Gestion_academica/Alumnos.txt"));
-		
-		bw.write(nombresfichero);
+
 		bw.flush();
 		bw.close();
  		

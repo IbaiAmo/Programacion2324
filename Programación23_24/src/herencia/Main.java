@@ -20,6 +20,7 @@ public class Main {
 			}
 		}
 		
+		
 		System.out.println("Cantidad de Animales de cada tipo: ");
 		System.out.println("Marinos: " + contadorMarino);
 		System.out.println("Terrestres: " + contadorTerrestre);
@@ -111,6 +112,8 @@ public class Main {
 		}
 		
 		}while (opc !=3);
+		
+		
 	}
 
 }
