@@ -113,14 +113,23 @@ public class Gestion_ejercicio3 {
  		
 		String nombresfichero = "";
 		BufferedWriter bw = new BufferedWriter(new FileWriter("src/Gestion_academica/Alumnos.txt"));
+		BufferedWriter bw1 = new BufferedWriter(new FileWriter("src/Gestion_academica/Cursos.txt"));
  		
 		for (int i = 0; i <nombresAlumnos.size();i++) {
-			
 			bw.write(nombresAlumnos.get(i).getNombre() + "," + nombresAlumnos.get(i).getEdad() + "," + nombresAlumnos.get(i).getCurso() + "\n");
+			
 		}
 
 		bw.flush();
 		bw.close();
+		
+		for (int i = 0; i <nombresAlumnos.size();i++) {
+			bw1.write(listacursos.get(i).getTitulo() + ";" + listacursos.get(i).getDescripcion() + ";" + listacursos.get(i).getProfesor() + "\n");
+			
+		}
+
+		bw1.flush();
+		bw1.close();
  		
  	}
  	
