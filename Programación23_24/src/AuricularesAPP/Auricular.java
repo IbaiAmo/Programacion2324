@@ -7,6 +7,12 @@ public class Auricular {
 	private double precio;
 	private int stock;
 	
+	
+	
+	public Auricular() {
+		
+	}
+
 	public Auricular(String modelo, String marca, double precio, int stock) {
 		this.modelo = modelo;
 		this.marca = marca;
