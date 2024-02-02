@@ -22,6 +22,17 @@ public class GestionUsuarios {
 			System.out.print("Elige una opción: ");
 			opc = sc.nextInt();
 			
+			
+			/*javascript:
+			 * 
+			 * let usuario ={
+			 * nombre: "ibai",
+			 * id: 1,
+			 * apellido: "Amo",
+			 * email: "ibai.amo@gmail.com",
+			 * };
+			 */
+			
 			switch (opc) {
 			
 			case 1:
