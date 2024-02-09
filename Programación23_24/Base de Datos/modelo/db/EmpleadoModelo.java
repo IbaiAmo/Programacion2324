@@ -111,7 +111,7 @@ public class EmpleadoModelo {
 			String sql = escribirSentencia;
 			ResultSet rs = st.executeQuery(sql);
 			while(rs.next()) {
-				int id = rs.getInt("id");
+				int id = rs.getInt("id");	
 				String nombre = rs.getString("first_name");
 				String apellido = rs.getString("last_name");
 				String departamento = rs.getString("department");

@@ -11,7 +11,7 @@
 	<classpathentry kind="src" path="8_Java_3.ariketak"/>
 	<classpathentry kind="src" path="12_Java_6.ariketa"/>
 	<classpathentry kind="src" path="Base de Datos"/>
-	<classpathentry kind="lib" path="C:/Users/1AW3-2/git/Programacion23-24/Programación23_24/src/ejercicioBD/mysql-connector-j-8.3.0.jar">
+	<classpathentry kind="lib" path="C:/Users/1AW3-2/git/Programacion23-24/Programación23_24/Base de Datos/ejercicioBD/mysql-connector-j-8.3.0.jar">
 		<attributes>
 			<attribute name="module" value="true"/>
 		</attributes>
