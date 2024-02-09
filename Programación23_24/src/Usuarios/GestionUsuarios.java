@@ -157,12 +157,122 @@ public class GestionUsuarios {
 		}
 		}while (idEnc == false);
 		
-		System.out.println("Escribe la contraseña");
+		System.out.print("Escribe la contraseña: ");
 		String contraseña = sc.next();
 		
 		while (!contraseña.equals(userList.get(usuarioPos).getContraseña())) {
-			
+			System.out.print("Esa no es la contraseña, escribela otra vez: ");
+			contraseña = sc.next();
 		}
+		
+		int opc = 0;
+		do {
+		
+		System.out.println("-----Editar Usuario-----");
+		System.out.println(" 1- Nombre\n 2- Apellido\n 3- contraseña\n 4- Activo\n 5- Salir");
+		System.out.println("------------------------");
+		System.out.print("Elige una opción: ");
+		opc = sc.nextInt();
+		
+		switch (opc) {
+		
+		case 1:
+			System.out.println("------------------------");
+			System.out.println(userList.get(usuarioPos).toString());
+			System.out.println("Nombre actual: " + userList.get(usuarioPos).getNombre());
+			System.out.print("Nuevo nombre: ");
+			String nuevoNombre = sc.next();
+			
+			userList.get(usuarioPos).setNombre(nuevoNombre);
+			System.out.println(userList.get(usuarioPos).toString());
+			
+			break;
+			
+		case 2:
+			
+			System.out.println("------------------------");
+			System.out.println("Apellido actual: " + userList.get(usuarioPos).getApellido());
+			System.out.print("Nuevo apellido: ");
+			String nuevoApellido = sc.next();
+			
+			userList.get(usuarioPos).setApellido(nuevoApellido);
+			
+			break;
+			
+		case 3:
+			
+			System.out.println("------------------------");
+			System.out.println("Contraseña actual: " + userList.get(usuarioPos).getContraseña());
+			System.out.print("Nueva contraseña: ");
+			String nuevaContraseña = sc.next();
+			
+			boolean contraseñaNum = false;
+			do {
+				
+				if (nuevaContraseña.length() >= 5) {
+					System.out.print("La contraseña solo puede tener 4 carácteres: ");
+					nuevaContraseña = sc.next();
+					
+				}else if (nuevaContraseña.length() <= 4){
+					contraseñaNum = true;
+				}
+				
+			}while (contraseñaNum == false);
+			
+			userList.get(usuarioPos).setContraseña(nuevaContraseña);
+			
+			break;
+		
+		case 4:
+			System.out.println("------------------------");
+			String siono = "";
+			String [] active = {"si", "no"};
+			boolean sionoBien = false;
+			
+			if (userList.get(usuarioPos).isActivo() == false) {
+				siono = "si";
+			}else {
+				siono = "no";
+			}
+			
+			System.out.println("Activo: " + siono);
+			System.out.print("Nuevo activo: ");
+			String nuevoActivo = sc.next();
+			
+			do {
+				for (int i = 0; i < active.length; i++) {
+					if (nuevoActivo.equalsIgnoreCase(active[i])) {
+						sionoBien = true;
+					}
+				}
+				
+				if (sionoBien == false) {
+					System.out.print("Pon si o no: ");
+					nuevoActivo = sc.next();
+				}
+				
+				}while (sionoBien == false);
+				
+				if (nuevoActivo.equalsIgnoreCase("si")) {
+					sionoBien = true;
+				}else {
+					sionoBien = false;
+				}		
+			
+			userList.get(usuarioPos).setActivo(sionoBien);
+			
+			Guardar(userList);
+			
+			break;
+		case 5:
+			System.out.println("------------------------");
+			System.out.println("Has salido del modo edición");
+	
+			break;
+		
+		}
+		
+		}while (opc != 5);
 		
 	
 	}
@@ -231,7 +341,7 @@ public class GestionUsuarios {
 			
 			case 4:
 				System.out.println("======================");
-				
+				Menu4 (userList);
 				
 				break;
 				
