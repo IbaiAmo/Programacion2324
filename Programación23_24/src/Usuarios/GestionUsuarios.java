@@ -65,6 +65,7 @@ public class GestionUsuarios {
 		}while (enc == false);
 		
 		
+		
 		System.out.print("Escribe la contraseña: ");
 		String contra = sc.next();
 		
@@ -96,11 +97,11 @@ public class GestionUsuarios {
 		boolean contraseñaNum = false;
 		do {
 			
-			if (contraseña.length() >= 5) {
-				System.out.print("La contraseña solo puede tener 4 carácteres: ");
+			if (contraseña.length() >= 5 || contraseña.length() < 4) {
+				System.out.print("La contraseña tiene que tener 4 carácteres: ");
 				contraseña = sc.next();
 				
-			}else if (contraseña.length() <= 4){
+			}else if (contraseña.length() == 4){
 				contraseñaNum = true;
 			}
 			
@@ -169,7 +170,7 @@ public class GestionUsuarios {
 		do {
 		
 		System.out.println("-----Editar Usuario-----");
-		System.out.println(" 1- Nombre\n 2- Apellido\n 3- contraseña\n 4- Activo\n 5- Salir");
+		System.out.println(" 1- Nombre\n 2- Apellido\n 3- contraseña\n 4- Activo\n 5- Salir y guardar");
 		System.out.println("------------------------");
 		System.out.print("Elige una opción: ");
 		opc = sc.nextInt();
@@ -261,13 +262,13 @@ public class GestionUsuarios {
 			
 			userList.get(usuarioPos).setActivo(sionoBien);
 			
-			Guardar(userList);
+			
 			
 			break;
 		case 5:
 			System.out.println("------------------------");
 			System.out.println("Has salido del modo edición");
-	
+			Guardar(userList);
 			break;
 		
 		}
