@@ -70,13 +70,13 @@ public static void insFutbolista(String edni, String enombre, String eapellido, 
 	
 }
 
-public static void idFutbolista(String edni) {
+public static void dniFutbolista(String edni) {
 	
 	Connection con=conexion();
 	Futbolista f = null;
 	try {
-		Statement st=con.createStatement();
-		String sql = "SELECT * FROM futbolistas WHERE dni=" + edni;
+		Statement st= con.createStatement();
+		String sql = "SELECT * FROM futbolistas WHERE dni='" + edni + "'";
 		ResultSet rs = st.executeQuery(sql);
 		while(rs.next()) {	//Como solo es uno se podria quitar el while, pero como puede ser que no haya nadie con el id que introduzcamos, se deja el while.
 			String dni = rs.getString("dni");
@@ -89,7 +89,7 @@ public static void idFutbolista(String edni) {
 			System.out.println(f);
 		
 	} catch (SQLException e) {
-		System.err.println("Error en el Statement de getEmpleados(). No se ha podido conseguir el ejecutable del sql");
+		System.err.println("Error en el Statement de dniFutbolista(edni). No se ha podido conseguir el ejecutable del sql");
 	}
 	
 	
