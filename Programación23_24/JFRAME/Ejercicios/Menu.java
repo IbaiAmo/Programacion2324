@@ -1,12 +1,18 @@
 package Ejercicios;
 
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+
 import javax.swing.ButtonGroup;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
+import javax.swing.JPopupMenu;
 import javax.swing.JRadioButtonMenuItem;
+import javax.swing.SwingUtilities;
 
 public class Menu{
 
@@ -90,11 +96,73 @@ public class Menu{
 		JMenu menu4 = new JMenu("Acerca de...");
 		navBar.add(menu4);
 		
+		JMenuItem info = new JMenuItem("Aplicación");
+		menu4.add(info);
+		
+		JMenuItem alerta = new JMenuItem("CoDejaVu...");
+		menu4.add(alerta);
+		
+
+		info.addActionListener(e ->{
+			JOptionPane.showMessageDialog(null, "Con esta aplicación vamos a\n" + 
+		"explicar los componentes básicos de Java Swing.\n\n"+"Autor: Cristian David Henao H. de CoDejaVu."
+					,"INFORMACIÓN",1);	//0 es de error, 1 es de información, 2 el de alerta y 3 el de pregunta.
+		});
+		
+		alerta.addActionListener(e ->{
+			JOptionPane.showMessageDialog(null, "CoDejaVu es un blog personal\n" + "sobre ingenieria de software.\n" +
+		"codejavu.blogspot.com","CoDejaVu!!!",2);	//0 es de error, 1 es de información, 2 el de alerta y 3 el de pregunta.
+		});
 		
 		
+		//Menu popup con click derecho
 		
+		JPopupMenu popup = new JPopupMenu();
 		
+		JMenuItem item1 = new JMenuItem("Popup opción 1");
+		JMenuItem item2 = new JMenuItem("Popup opción 2");
 		
+		popup.add(item1);
+		popup.add(item2);
+		
+		item1.addActionListener(e ->{
+			JOptionPane.showMessageDialog(null, "Presiona la opción emergente 1");	
+		});
+		
+		item2.addActionListener(e ->{
+			JOptionPane.showMessageDialog(null, "Presiona la opción emergente 2");
+		});
+		
+	
+		
+		//Con esto el popup aparece con clock derecho.
+		
+		ventana.addMouseListener(new MouseListener() {
+			
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if (SwingUtilities.isRightMouseButton(e)) {
+					popup.show(ventana,e.getX(),e.getY());
+				}
+			}
+			
+			@Override
+			public void mouseReleased(MouseEvent e) {
+			}
+			
+			@Override
+			public void mousePressed(MouseEvent e) {
+			}
+			
+			@Override
+			public void mouseExited(MouseEvent e) {
+			}
+			
+			@Override
+			public void mouseEntered(MouseEvent e) {
+			}
+			
+		});
 		
 	}
 
