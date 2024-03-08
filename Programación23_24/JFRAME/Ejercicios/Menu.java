@@ -17,6 +17,8 @@ import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JRadioButtonMenuItem;
 import javax.swing.SwingUtilities;
+import javax.swing.event.MenuEvent;
+import javax.swing.event.MenuListener;
 
 public class Menu{
 
@@ -176,14 +178,34 @@ public class Menu{
 		panel.setBackground(Color.white);
 		ventana.add(panel);
 		
-		JLabel menu = new JLabel("MENU");
+		JLabel menu = new JLabel();
 		panel.add(menu);
 		
-		JLabel artxibo = new JLabel("Artxiboa");
-		panel.add(artxibo);
 		
-		JLabel text = new JLabel();
-		panel.add(text);
+		JLabel texto = new JLabel();
+		panel.add(texto);
+		
+		
+
+		
+		archivo1.addActionListener(e ->{
+			String text = archivo1.getText();
+			texto.setText(text);
+		});
+		archivo2.addActionListener(e ->{
+			String text = archivo2.getText();
+			texto.setText(text);
+		});
+		archivo3.addActionListener(e ->{
+			String text = archivo3.getText();
+			texto.setText(text);
+		});
+		archivo4.addActionListener(e ->{
+			String text = archivo4.getText();
+			texto.setText(text);
+		});
+		
+		
 		
 	}
 
