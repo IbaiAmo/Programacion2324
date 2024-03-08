@@ -130,7 +130,7 @@ public class GestionUsuarios {
 			sionoBien = false;
 		}		
 		
-		Usuario usuario = new Usuario(userList.getLast().getId()+1, nombre, apellido, nombre+apellido, contraseña, sionoBien);
+		Usuario usuario = new Usuario(userList.size()+1, nombre, apellido, nombre+apellido, contraseña, sionoBien);
 		userList.add(usuario);
 		
 		Guardar (userList);

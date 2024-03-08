@@ -66,7 +66,7 @@ public class GestionFutbol {
 
 	public static void Menu4() {
 		ArrayList<Equipo> equipo = equipoFutbol.verEquipos();
-		System.out.println("El id del equipo nuevo se autoincrementará a " + (equipo.getLast().getIdEquipo() + 1));
+		System.out.println("El id del equipo nuevo se autoincrementará a " + (equipo.size() + 1));
 		System.out.print("Nombre: ");
 		String nombre = sc.nextLine();
 		nombre = sc.nextLine();

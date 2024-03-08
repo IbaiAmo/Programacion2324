@@ -1,15 +1,19 @@
 package Ejercicios;
 
+import java.awt.Color;
+import java.awt.FlowLayout;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JRadioButtonMenuItem;
 import javax.swing.SwingUtilities;
@@ -163,6 +167,23 @@ public class Menu{
 			}
 			
 		});
+		
+		
+		JPanel panel = new JPanel();
+		FlowLayout distri = new FlowLayout();
+		panel.setLayout(distri);
+		distri.setAlignment(0);
+		panel.setBackground(Color.white);
+		ventana.add(panel);
+		
+		JLabel menu = new JLabel("MENU");
+		panel.add(menu);
+		
+		JLabel artxibo = new JLabel("Artxiboa");
+		panel.add(artxibo);
+		
+		JLabel text = new JLabel();
+		panel.add(text);
 		
 	}
 

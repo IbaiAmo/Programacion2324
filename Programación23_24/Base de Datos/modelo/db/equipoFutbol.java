@@ -61,7 +61,7 @@ public class equipoFutbol {
 		
 		try {
 			Statement st = con.createStatement();
-			String sql = "INSERT INTO equipos (idEquipo,nombre,ciudad) VALUES (" + (equipos2.getLast().getIdEquipo()+1) + ",'" + nombre + "','" + ciudad + "')";
+			String sql = "INSERT INTO equipos (idEquipo,nombre,ciudad) VALUES (" + equipos2.size()+1 + ",'" + nombre + "','" + ciudad + "')";
 			st.execute(sql);
 			
 		}catch (SQLException e) {
