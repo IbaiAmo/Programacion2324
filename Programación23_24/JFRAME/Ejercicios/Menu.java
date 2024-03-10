@@ -5,6 +5,7 @@ import java.awt.FlowLayout;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
+import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JFrame;
@@ -17,8 +18,6 @@ import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JRadioButtonMenuItem;
 import javax.swing.SwingUtilities;
-import javax.swing.event.MenuEvent;
-import javax.swing.event.MenuListener;
 
 public class Menu{
 
@@ -172,40 +171,53 @@ public class Menu{
 		
 		
 		JPanel panel = new JPanel();
-		FlowLayout distri = new FlowLayout();
-		panel.setLayout(distri);
-		distri.setAlignment(0);
+		panel.setLayout(new BoxLayout(panel,BoxLayout.Y_AXIS));
+		
 		panel.setBackground(Color.white);
 		ventana.add(panel);
 		
-		JLabel menu = new JLabel();
+		JLabel menu = new JLabel("MENU");
 		panel.add(menu);
 		
 		
-		JLabel texto = new JLabel();
+		JLabel texto = new JLabel("Archivo: ");
 		panel.add(texto);
-		
-		
-
 		
 		archivo1.addActionListener(e ->{
 			String text = archivo1.getText();
-			texto.setText(text);
+			texto.setText("Archivo: " + text);
 		});
 		archivo2.addActionListener(e ->{
 			String text = archivo2.getText();
-			texto.setText(text);
+			texto.setText("Archivo: " + text);
 		});
 		archivo3.addActionListener(e ->{
 			String text = archivo3.getText();
-			texto.setText(text);
+			texto.setText("Archivo: " + text);
 		});
 		archivo4.addActionListener(e ->{
 			String text = archivo4.getText();
-			texto.setText(text);
+			texto.setText("Archivo: " + text);
 		});
 		
+		JLabel edicion = new JLabel("Edición: ");
+		panel.add(edicion);
 		
+		edicion1.addActionListener(e ->{
+			edicion.setText("Edición: " + edicion1.getText());
+		});
+		
+		edicion2.addActionListener(e ->{
+			edicion.setText("Edición: " + edicion2.getText());
+		});		
+		
+		vertical.addActionListener(e ->{
+			edicion.setText("Edición: Girar/" + vertical.getText());
+		});
+		
+		horizontal.addActionListener(e ->{
+			edicion.setText("Edición: Girar/" + horizontal.getText());
+		});
 		
 	}
 
