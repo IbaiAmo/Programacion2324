@@ -1,10 +1,10 @@
 package Ejercicios;
 
 import java.awt.Color;
-import java.awt.FlowLayout;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
+import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
 import javax.swing.JCheckBoxMenuItem;
@@ -171,37 +171,47 @@ public class Menu{
 		
 		
 		JPanel panel = new JPanel();
-		panel.setLayout(new BoxLayout(panel,BoxLayout.Y_AXIS));
+		panel.setLayout(null);
 		
 		panel.setBackground(Color.white);
 		ventana.add(panel);
 		
 		JLabel menu = new JLabel("MENU");
 		panel.add(menu);
+		menu.setSize(100, 30);
+		menu.setLocation(10,0);
 		
 		
 		JLabel texto = new JLabel("Archivo: ");
 		panel.add(texto);
+		texto.setSize(100, 30);
+		texto.setLocation(10,20);
 		
 		archivo1.addActionListener(e ->{
 			String text = archivo1.getText();
 			texto.setText("Archivo: " + text);
 		});
+		
 		archivo2.addActionListener(e ->{
 			String text = archivo2.getText();
 			texto.setText("Archivo: " + text);
 		});
+		
 		archivo3.addActionListener(e ->{
 			String text = archivo3.getText();
 			texto.setText("Archivo: " + text);
 		});
+		
 		archivo4.addActionListener(e ->{
 			String text = archivo4.getText();
 			texto.setText("Archivo: " + text);
 		});
 		
+		
 		JLabel edicion = new JLabel("Edición: ");
 		panel.add(edicion);
+		edicion.setSize(200, 30);
+		edicion.setLocation(10,40);
 		
 		edicion1.addActionListener(e ->{
 			edicion.setText("Edición: " + edicion1.getText());
@@ -218,6 +228,60 @@ public class Menu{
 		horizontal.addActionListener(e ->{
 			edicion.setText("Edición: Girar/" + horizontal.getText());
 		});
+		
+		JLabel opciones = new JLabel("Opciones: ");
+		panel.add(opciones);
+		opciones.setSize(100, 30);
+		opciones.setLocation(10,60);
+		
+		JLabel checkv1 = new JLabel();
+		panel.add(checkv1);
+		checkv1.setSize(100, 30);
+		checkv1.setLocation(80,60);
+		
+		JLabel checkv2 = new JLabel();
+		panel.add(checkv2);
+		checkv2.setSize(100, 30);
+		checkv2.setLocation(175,60);
+		
+		
+		check1.addActionListener(e ->{
+			
+			if (check1.isSelected()) {
+				checkv1.setText("Check1 es true,");
+			}else {
+				checkv1.setText("Check1 es false,");
+			}
+			
+		});
+		
+		check2.addActionListener(e ->{
+			
+			if (check2.isSelected()) {
+				checkv2.setText("Check2 es true");
+			}else {
+				checkv2.setText("Check2 es false");
+			}
+			
+		});
+		
+		
+		JLabel radiobuttons = new JLabel(",");
+		panel.add(radiobuttons);
+		radiobuttons.setSize(200, 30);
+		radiobuttons.setLocation(80,80);
+		
+		
+		radio1.addActionListener(e ->{
+			
+			radiobuttons.setText("Radio1 es true, Radio2 es false");
+			
+		});
+		
+		radio2.addActionListener(e ->{
+			radiobuttons.setText("Radio1 es false, Radio 2 es true");
+		});
+		
 		
 	}
 
