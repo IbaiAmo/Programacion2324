@@ -3,9 +3,8 @@ package Ejercicios;
 import java.awt.Color;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 
-import javax.swing.BorderFactory;
-import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JFrame;
@@ -271,7 +270,6 @@ public class Menu{
 		radiobuttons.setSize(200, 30);
 		radiobuttons.setLocation(80,80);
 		
-		
 		radio1.addActionListener(e ->{
 			
 			radiobuttons.setText("Radio1 es true, Radio2 es false");
@@ -281,6 +279,7 @@ public class Menu{
 		radio2.addActionListener(e ->{
 			radiobuttons.setText("Radio1 es false, Radio 2 es true");
 		});
+		  
 		
 		
 	}

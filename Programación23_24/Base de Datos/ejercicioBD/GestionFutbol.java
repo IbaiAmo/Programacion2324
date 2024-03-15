@@ -75,7 +75,7 @@ public class GestionFutbol {
 		ciudad = sc.nextLine();
 		equipoFutbol.insEquipo(nombre, ciudad);
 	}
-
+	
 	public static void Menu5() {
 
 		ArrayList<Futbolista> fut = Futbol.getFutbolistas();
