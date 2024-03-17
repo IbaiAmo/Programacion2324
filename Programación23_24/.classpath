@@ -7,7 +7,11 @@
 	<classpathentry kind="src" path="12_Java_6.ariketa"/>
 	<classpathentry kind="src" path="Base de Datos"/>
 	<classpathentry kind="src" path="JFRAME"/>
-	<classpathentry kind="lib" path="C:/Users/1AW3-2/Downloads/mysql-connector-j-8.3.0.jar"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/jdk-21"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/jre"/>
+	<classpathentry kind="lib" path="C:/Users/W002/Downloads/mysql-connector-j-8.3.0.jar">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
