@@ -4,13 +4,15 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
+import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
-import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+
+import dbClases.Futbolista;
 
 public class frameFutbol{
 	
@@ -21,7 +23,8 @@ public class frameFutbol{
 		ventanaInicial.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		ventanaInicial.setSize(350, 450);
 		ventanaInicial.setLocationRelativeTo(null);
-		ventanaInicial.setVisible(true);
+		ventanaInicial.setResizable(false);
+		
 		
 		JPanel panelGeneral = new JPanel();
 		panelGeneral.setBorder(BorderFactory.createEmptyBorder());
@@ -58,7 +61,12 @@ public class frameFutbol{
 		panelGeneral.add(panelBotones, BorderLayout.CENTER);
 		ventanaInicial.add(panelGeneral);
 		
-
+		ventanaInicial.setVisible(true);
+		
+		btn_vj.addActionListener(e ->{
+			
+		});
+		
 	}
 
 
