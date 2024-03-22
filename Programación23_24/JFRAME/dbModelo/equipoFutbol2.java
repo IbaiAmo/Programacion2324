@@ -1,15 +1,15 @@
 package dbModelo;
 
-import java.sql.Connection;
+import java.sql.Connection; 
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-import modelo.model.Equipo;
+import dbClases.Equipo2;
 
-public class equipoFutbol {
+public class equipoFutbol2 {
 
 	public static Connection conexion() {
 		
@@ -28,11 +28,11 @@ public class equipoFutbol {
 	}
 	
 	
-	public static ArrayList<Equipo> verEquipos() {
+	public static ArrayList<Equipo2> verEquipos() {
 		
-		ArrayList<Equipo> equipos = new ArrayList<Equipo>();
+		ArrayList<Equipo2> equipos = new ArrayList<Equipo2>();
 		Connection con = conexion();
-		Equipo equipo = null;
+		Equipo2 equipo = null;
 		try {
 			Statement st = con.createStatement();
 			String sql = "SELECT * FROM equipos";
@@ -42,7 +42,7 @@ public class equipoFutbol {
 				int idEquipo = rs.getInt("idEquipo");
 				String nombre = rs.getString("nombre");
 				String ciudad = rs.getString("ciudad");
-				equipo = new Equipo(idEquipo, nombre, ciudad);
+				equipo = new Equipo2(idEquipo, nombre, ciudad);
 				equipos.add(equipo);
 			}
 
@@ -56,7 +56,7 @@ public class equipoFutbol {
 	
 	public static void insEquipo(String nombre, String ciudad) {
 		
-		ArrayList<Equipo> equipos2 = verEquipos();
+		ArrayList<Equipo2> equipos2 = verEquipos();
 		Connection con = conexion();
 		
 		try {
@@ -74,9 +74,9 @@ public class equipoFutbol {
 	
 	public static void verEquipoxid(int eid) {
 		
-		ArrayList<Equipo> equipos = new ArrayList<Equipo>();
+		ArrayList<Equipo2> equipos = new ArrayList<Equipo2>();
 		Connection con = conexion();
-		Equipo equipo = null;
+		Equipo2 equipo = null;
 		try {
 			Statement st = con.createStatement();
 			String sql = "SELECT * FROM equipos WHERE idEquipo= " + eid;
@@ -86,7 +86,7 @@ public class equipoFutbol {
 				int idEquipo = rs.getInt("idEquipo");
 				String nombre = rs.getString("nombre");
 				String ciudad = rs.getString("ciudad");
-				equipo = new Equipo(idEquipo ,nombre, ciudad);
+				equipo = new Equipo2(idEquipo ,nombre, ciudad);
 				equipos.add(equipo);
 			}
 			

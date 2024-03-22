@@ -10,9 +10,11 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-import modelo.model.Futbolista;
+import dbClases.Futbolista2;
 
-public class Futbol {
+
+
+public class Futbol2 {
 
 	
 private static Connection conexion() {
@@ -31,8 +33,8 @@ private static Connection conexion() {
 		return con;
 	}
 
-public static ArrayList<Futbolista> getFutbolistas(){
-	ArrayList<Futbolista> futbolistas=new ArrayList<Futbolista>();
+public static ArrayList<Futbolista2> getFutbolistas(){
+	ArrayList<Futbolista2> futbolistas=new ArrayList<Futbolista2>();
 	Connection con=conexion();
 	
 	try {
@@ -45,7 +47,7 @@ public static ArrayList<Futbolista> getFutbolistas(){
 			String apellido = rs.getString("apellido");
 			int salario = rs.getInt("salario");
 			int idEquipo = rs.getInt("idEquipo");
-			Futbolista f = new Futbolista(dni, nombre, apellido, salario, idEquipo);
+			Futbolista2 f = new Futbolista2(dni, nombre, apellido, salario, idEquipo);
 			futbolistas.add(f);
 		}
 		
@@ -74,7 +76,7 @@ public static void insFutbolista(String edni, String enombre, String eapellido, 
 public static void dniFutbolista(String edni) {
 	
 	Connection con=conexion();
-	Futbolista f = null;
+	Futbolista2 f = null;
 	try {
 		Statement st= con.createStatement();
 		String sql = "SELECT * FROM futbolistas WHERE dni='" + edni + "'";
@@ -85,7 +87,7 @@ public static void dniFutbolista(String edni) {
 			String apellido = rs.getString("apellido");
 			int salario = rs.getInt("salario");
 			int idEquipo = rs.getInt("idEquipo");
-			f = new Futbolista(dni, nombre, apellido, salario, idEquipo);
+			f = new Futbolista2(dni, nombre, apellido, salario, idEquipo);
 		}
 			System.out.println(f);
 		

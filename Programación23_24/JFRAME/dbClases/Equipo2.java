@@ -1,12 +1,12 @@
 package dbClases;
 
-public class Equipo {
+public class Equipo2 {
 
 	private int idEquipo;
 	private String nombre;
 	private String ciudad;
 	
-	public Equipo(int idEquipo, String nombre, String ciudad) {
+	public Equipo2(int idEquipo, String nombre, String ciudad) {
 		super();
 		this.idEquipo = idEquipo;
 		this.nombre = nombre;

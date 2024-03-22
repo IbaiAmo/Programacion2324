@@ -1,6 +1,6 @@
 package dbClases;
 
-public class Futbolista {
+public class Futbolista2 {
 
 	private String dni;
 	private String nombre;
@@ -8,7 +8,7 @@ public class Futbolista {
 	private int salario;
 	private int idEquipo;
 	
-	public Futbolista(String dni, String nombre, String apellido, int salario, int idEquipo) {
+	public Futbolista2(String dni, String nombre, String apellido, int salario, int idEquipo) {
 		super();
 		this.dni = dni;
 		this.nombre = nombre;
