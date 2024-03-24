@@ -73,10 +73,11 @@ public static void insFutbolista(String edni, String enombre, String eapellido, 
 	
 }
 
-public static void dniFutbolista(String edni) {
+public static String dniFutbolista(String edni) {
 	
 	Connection con=conexion();
 	Futbolista2 f = null;
+	String texto = null;
 	try {
 		Statement st= con.createStatement();
 		String sql = "SELECT * FROM futbolistas WHERE dni='" + edni + "'";
@@ -89,13 +90,13 @@ public static void dniFutbolista(String edni) {
 			int idEquipo = rs.getInt("idEquipo");
 			f = new Futbolista2(dni, nombre, apellido, salario, idEquipo);
 		}
-			System.out.println(f);
+			texto = f.toString();
 		
 	} catch (SQLException e) {
 		System.err.println("Error en el Statement de dniFutbolista(edni). No se ha podido conseguir el ejecutable del sql");
 	}
 	
-	
+	return texto;
 }
 	
 
