@@ -81,6 +81,7 @@ public class frameFutbol{
 	}
 
 	private static JFrame idJug(ImageIcon icono) {
+
 		
 		JFrame idJug = new JFrame("Mostrar jugador por ID");
 		idJug.setSize(600, 150);
@@ -143,10 +144,73 @@ public class frameFutbol{
 		return idJug;
 	}
 	
+	private static JFrame idEquipo(ImageIcon icono) {
+		
+	JFrame idEquipo = new JFrame("Mostrar equipo por ID");
+	idEquipo.setSize(600, 150);
+	idEquipo.setIconImage(icono.getImage());
+	idEquipo.setLayout(null);
+	idEquipo.setResizable(false);
+	
+	ArrayList<Equipo2>equipo = equipoFutbol2.verEquipos();
+	String[] listaDni = new String[equipo.size()];
+	
+		for(int i = 0;i< listaDni.length;i++) {
+			listaDni[i]= Integer.toString(equipo.get(i).getIdEquipo());
+		}
+	
+	
+	//panel para elegir el id
+		
+	JPanel panel1 = new JPanel();
+	panel1.setBounds(0,0,600, 50);
+	panel1.setLayout(null);
+	panel1.setBackground(Color.lightGray);
+	idEquipo.add(panel1);
+	
+	JComboBox<String>elegirDni = new JComboBox<>(listaDni);
+	elegirDni.setBounds(10, 5, 100, 40);
+	elegirDni.setFont(new Font("Arial",Font.BOLD,12));
+	panel1.add(elegirDni);
+	
+	JButton btn_elegir = new JButton("Elegir");
+	btn_elegir.setBounds(365, 5, 100, 40);
+	btn_elegir.setFont(new Font("Arial",Font.BOLD,15));
+	panel1.add(btn_elegir);
+	
+	JButton btn_eliminar = new JButton("Eliminar");
+	btn_eliminar.setBounds(475, 5, 100, 40);
+	btn_eliminar.setFont(new Font("Arial",Font.BOLD,15));
+	panel1.add(btn_eliminar);
+	
+	//panel para mostrar el futbolista
+	
+	JPanel panel2 = new JPanel();
+	panel2.setBounds(0,50,600, 100);
+	panel2.setBackground(Color.WHITE);
+	panel2.setLayout(new FlowLayout(FlowLayout.LEFT));
+	idEquipo.add(panel2);
+	
+	JTextArea textoEquipo = new JTextArea();
+	textoEquipo.setFont(new Font("Arial",Font.BOLD,13));
+	
+	panel2.add(textoEquipo);
+	idEquipo.setVisible(true);
+	
+	btn_elegir.addActionListener(e ->{
+		textoEquipo.setText(equipoFutbol2.verEquipoxid(Integer.parseInt(elegirDni.getSelectedItem().toString())));
+	});
+	btn_eliminar.addActionListener(e ->{
+		textoEquipo.setText(null);
+	});
+	
+	return idEquipo;
+}
+	
 	public static void main(String[] args){
 		JFrame ventanaInicial = new JFrame("Menu Futbol BBDD");
 		ventanaInicial.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		ventanaInicial.setSize(350, 450);
+		ventanaInicial.setSize(350, 530);
 		ventanaInicial.setLocationRelativeTo(null);
 		ventanaInicial.setResizable(false);
 		
@@ -157,7 +221,7 @@ public class frameFutbol{
 		
 		
 		JPanel panelGeneral = new JPanel();
-		panelGeneral.setSize(350, 450);
+		panelGeneral.setSize(350, 530);
 		panelGeneral.setLayout(new BorderLayout());
 		
 		JPanel panelTitulo = new JPanel(new FlowLayout(FlowLayout.CENTER));
@@ -171,7 +235,7 @@ public class frameFutbol{
 		
 		
 		JPanel panelBotones = new JPanel();
-		panelBotones.setSize(350, 350);
+		panelBotones.setSize(350, 430);
 		panelBotones.setLayout(null);
 		
 		
@@ -192,16 +256,20 @@ public class frameFutbol{
 		btn_ae.setBounds(45, 200, 250, 50);
 		btn_ae.setFont(fuenteBtn);
 		
+		JButton btn_ac= new JButton("Agregar Carta");
+		btn_ac.setBounds(45, 260, 250, 50);
+		btn_ac.setFont(fuenteBtn);
+		
 		JButton btn_idf = new JButton("Mostrar Jugador por ID");
-		btn_idf.setBounds(45, 260, 250, 50);
+		btn_idf.setBounds(45, 320, 250, 50);
 		btn_idf.setFont(fuenteBtn);
 		
 		JButton btn_ide= new JButton("Mostrar Equipo por ID");
-		btn_ide.setBounds(45, 320, 250, 50);
+		btn_ide.setBounds(45, 380, 250, 50);
 		btn_ide.setFont(fuenteBtn);
 		
 		
-		panelBotones.add(btn_vj);panelBotones.add(btn_ve);panelBotones.add(btn_af);panelBotones.add(btn_ae);panelBotones.add(btn_idf);panelBotones.add(btn_ide);
+		panelBotones.add(btn_vj);panelBotones.add(btn_ve);panelBotones.add(btn_af);panelBotones.add(btn_ae);panelBotones.add(btn_ac);panelBotones.add(btn_idf);panelBotones.add(btn_ide);
 		panelGeneral.add(panelBotones, BorderLayout.CENTER);
 		ventanaInicial.add(panelGeneral);
 		
@@ -223,9 +291,13 @@ public class frameFutbol{
 		btn_idf.addActionListener(e -> {
 			idJug(icono);
 		});
+		
+		btn_ide.addActionListener(e -> {
+			idEquipo(icono);
+		});
 	}
 
-
+	
 			
 	
 

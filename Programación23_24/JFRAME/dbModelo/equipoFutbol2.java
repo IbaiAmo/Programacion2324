@@ -72,11 +72,11 @@ public class equipoFutbol2 {
 		
 	}
 	
-	public static void verEquipoxid(int eid) {
+	public static String verEquipoxid(int eid) {
 		
-		ArrayList<Equipo2> equipos = new ArrayList<Equipo2>();
 		Connection con = conexion();
 		Equipo2 equipo = null;
+		String texto = null;
 		try {
 			Statement st = con.createStatement();
 			String sql = "SELECT * FROM equipos WHERE idEquipo= " + eid;
@@ -86,17 +86,15 @@ public class equipoFutbol2 {
 				int idEquipo = rs.getInt("idEquipo");
 				String nombre = rs.getString("nombre");
 				String ciudad = rs.getString("ciudad");
-				equipo = new Equipo2(idEquipo ,nombre, ciudad);
-				equipos.add(equipo);
+				equipo = new Equipo2(idEquipo ,nombre, ciudad);		
 			}
-			
-			for (int i = 0; i < equipos.size();i++) {
-				System.out.println(equipos.get(i));
-			}
+			texto = equipo.toString();
+
 			
 		}catch (SQLException e) {
 			System.err.println("Error en el Statement de verEquipoxid(eid). No se ha podido conseguir el ejecutable del sql");
 		}
+		return texto;
 	}
 	
 	
