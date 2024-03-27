@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.Insets;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
@@ -14,6 +15,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
+import javax.swing.JTextField;
 
 import dbClases.Equipo2;
 import dbClases.Futbolista2;
@@ -80,6 +82,100 @@ public class frameFutbol{
 		return verEquipos;
 	}
 
+	private static JFrame agregarFut(ImageIcon icono) {
+		
+		ArrayList<Futbolista2>listaFutbolistas=Futbol2.getFutbolistas();	//arraylist para tener todos los futbolistas
+		String[]DniFut = new String[listaFutbolistas.size()];	//array donde guardo el dni de cada uno para usarlo en la creación del jugador
+		
+		for(int i = 0; i < DniFut.length;i++) {
+			DniFut[i] = listaFutbolistas.get(i).getDni();	//aqui meto todos los dni
+		}
+		
+		JFrame ventana = new JFrame("Agregar futbolista");
+		ventana.setResizable(false);
+		ventana.setSize(500, 400);
+		
+		JPanel panel = new JPanel();
+		panel.setBackground(Color.WHITE);
+		panel.setLayout(null);
+		panel.setBounds(0, 0, 500, 350);
+		ventana.add(panel);
+		
+		Font fuente = new Font("Arial",Font.BOLD,14);
+		
+		JLabel titulo = new JLabel("Futbolista");
+		titulo.setFont(new Font("Impact",0,30));
+		titulo.setBounds(40,20,200,30);
+		panel.add(titulo);
+		
+		JLabel dniLabel = new JLabel("DNI:");
+		dniLabel.setBounds(10,80,100,30);
+		dniLabel.setFont(fuente);
+		
+		JTextField dniText = new JTextField();
+		dniText.setBounds(120,80,80,30);
+		dniText.setMargin(new Insets(0,7,0,7));
+		dniText.setFont(fuente);
+		
+		JLabel nombreLabel = new JLabel("Nombre:");
+		nombreLabel.setBounds(10,120,100,30);
+		nombreLabel.setFont(fuente);
+		
+		JTextField nombreText = new JTextField();
+		nombreText.setBounds(120,120,80,30);
+		nombreText.setMargin(new Insets(0,7,0,7));
+		nombreText.setFont(fuente);
+		
+		JLabel apellidoLabel = new JLabel("Apellido:");
+		apellidoLabel.setBounds(10,160,100,30);
+		apellidoLabel.setFont(fuente);
+		
+		JTextField apellidoText = new JTextField();
+		apellidoText.setBounds(120,160,80,30);
+		apellidoText.setMargin(new Insets(0,7,0,7));
+		apellidoText.setFont(fuente);
+		
+		JLabel salarioLabel = new JLabel("Salario:");
+		salarioLabel.setBounds(10,200,100,30);
+		salarioLabel.setFont(fuente);
+		
+		JTextField salarioText = new JTextField();
+		salarioText.setBounds(120,200,80,30);
+		salarioText.setMargin(new Insets(0,7,0,7));
+		salarioText.setFont(fuente);
+		
+		JLabel idequipoLabel = new JLabel("ID de equipo:");
+		idequipoLabel.setBounds(10,240,100,30);
+		idequipoLabel.setFont(fuente);
+		
+		JTextField idequipoText = new JTextField();
+		idequipoText.setBounds(120,240,80,30);
+		idequipoText.setMargin(new Insets(0,7,0,7));
+		idequipoText.setFont(fuente);
+		
+		panel.add(dniLabel);panel.add(dniText);panel.add(nombreLabel);panel.add(nombreText);
+		panel.add(apellidoLabel);panel.add(apellidoText);panel.add(salarioLabel);
+		panel.add(salarioText);panel.add(idequipoLabel);panel.add(idequipoText);
+		
+		JButton enviar = new JButton("Crear");
+		enviar.setBounds(40,290,150,50);
+		panel.add(enviar);
+		
+		
+		
+		
+		/*
+		 * insertar foto en jlabel
+		 * 
+		 * ImageIcon logo = new ImageIcon("img/logoCinesa.png");
+		Icon iconoLogo = new ImageIcon(logo.getImage().getScaledInstance(logotipo.getWidth(), logotipo.getHeight(), Image.SCALE_SMOOTH));
+		logotipo.setIcon(iconoLogo);
+		 */
+		
+		ventana.setVisible(true);
+		return ventana;
+	}
+	
 	private static JFrame idJug(ImageIcon icono) {
 
 		
@@ -207,10 +303,11 @@ public class frameFutbol{
 	return idEquipo;
 }
 	
+	
 	public static void main(String[] args){
 		JFrame ventanaInicial = new JFrame("Menu Futbol BBDD");
 		ventanaInicial.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		ventanaInicial.setSize(350, 530);
+		ventanaInicial.setSize(350, 450);
 		ventanaInicial.setLocationRelativeTo(null);
 		ventanaInicial.setResizable(false);
 		
@@ -221,7 +318,7 @@ public class frameFutbol{
 		
 		
 		JPanel panelGeneral = new JPanel();
-		panelGeneral.setSize(350, 530);
+		panelGeneral.setSize(350, 450);
 		panelGeneral.setLayout(new BorderLayout());
 		
 		JPanel panelTitulo = new JPanel(new FlowLayout(FlowLayout.CENTER));
@@ -235,7 +332,7 @@ public class frameFutbol{
 		
 		
 		JPanel panelBotones = new JPanel();
-		panelBotones.setSize(350, 430);
+		panelBotones.setSize(350, 350);
 		panelBotones.setLayout(null);
 		
 		
@@ -248,28 +345,24 @@ public class frameFutbol{
 		btn_ve.setBounds(45, 80, 250, 50);
 		btn_ve.setFont(fuenteBtn);
 		       
-		JButton btn_af = new JButton("Agregar Jugadores");
+		JButton btn_af = new JButton("Agregar Jugador y carta");
 		btn_af.setBounds(45, 140, 250, 50);
 		btn_af.setFont(fuenteBtn);
 		
-		JButton btn_ae = new JButton("Agregar Equipos");
+		JButton btn_ae = new JButton("Agregar Equipo");
 		btn_ae.setBounds(45, 200, 250, 50);
 		btn_ae.setFont(fuenteBtn);
 		
-		JButton btn_ac= new JButton("Agregar Carta");
-		btn_ac.setBounds(45, 260, 250, 50);
-		btn_ac.setFont(fuenteBtn);
-		
 		JButton btn_idf = new JButton("Mostrar Jugador por ID");
-		btn_idf.setBounds(45, 320, 250, 50);
+		btn_idf.setBounds(45, 260, 250, 50);
 		btn_idf.setFont(fuenteBtn);
 		
 		JButton btn_ide= new JButton("Mostrar Equipo por ID");
-		btn_ide.setBounds(45, 380, 250, 50);
+		btn_ide.setBounds(45, 320, 250, 50);
 		btn_ide.setFont(fuenteBtn);
 		
 		
-		panelBotones.add(btn_vj);panelBotones.add(btn_ve);panelBotones.add(btn_af);panelBotones.add(btn_ae);panelBotones.add(btn_ac);panelBotones.add(btn_idf);panelBotones.add(btn_ide);
+		panelBotones.add(btn_vj);panelBotones.add(btn_ve);panelBotones.add(btn_af);panelBotones.add(btn_ae);panelBotones.add(btn_idf);panelBotones.add(btn_ide);
 		panelGeneral.add(panelBotones, BorderLayout.CENTER);
 		ventanaInicial.add(panelGeneral);
 		
@@ -285,6 +378,10 @@ public class frameFutbol{
 		});
 		
 		btn_af.addActionListener(e -> {
+			agregarFut(icono);
+		});
+		
+		btn_ae.addActionListener(e -> {
 			
 		});
 		
