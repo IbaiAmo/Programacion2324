@@ -7,7 +7,6 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Image;
 import java.awt.Insets;
-import java.sql.SQLException;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
@@ -219,76 +218,134 @@ public class frameFutbol{
 			
 			int requisitos = 0;	//variable para que antes de crear el futbolista cumpla los requisitos de entrada de datos
 			boolean cumple = false;
+			
+			//boolean para cada requisito
+			boolean dniReq = false, dni1 = false, dni2=false, salId = false;
 			String errores = "Errores: \n";
 			
 			if(cont==0) {
+				
 			
-			do {
+				//Con esto compruebo si el dni esta vacio o hay un espacio, asi tambien se hace un campo obligatorio
+				if (dniText.getText().equals("") || dniText.getText().contains(" ")) {
+					dniReq = true;
+				}
 				
-				
-			for (int o = 0; o < letras.length;o++) {
-				if(dniText.getText().contains(letras[o])){
-					
-							
+				//comprobar que el dni tenga 4 caracteres
+				if(dniText.getText().length() == 4) {
+					requisitos++;
 				}else {
+					errores += "- El DNI debe tener 4 caracteres \n";
+				}
+				
+				
+				//comprobar si el dni tiene alguna letra
+				for (int o = 0; o < letras.length;o++) {
+					if(dniText.getText().contains(letras[o])){
+						dni1=true;
+								
+					}
+				}
+				
+				if(dni1 == false) {
 					errores += "- El DNI debe contener al menos una letra \n";
-					
-				}
-			}
-			
-			for (int o = 0; o < numeros.length;o++) {
-				if(dniText.getText().contains(numeros[o])){
-					
-							
 				}else {
-					errores += "- El DNI debe contener al menos un numero \n";
-					
+					requisitos++;
 				}
-			}
-						
-			if (Integer.parseInt(salarioText.getText()) < 0 || Integer.parseInt(idequipoText.getText()) < 0) {
-					errores += "- El salario o el ID de equipo es negativo \n";
-					
-			}else {
 				
-			}
-			
-			for (int o = 0; o < letras.length;o++) {
-				if(idequipoText.getText().toLowerCase().contains(letras[o]) || salarioText.getText().toLowerCase().contains(letras[o])){
-					errores += "- El salario o el ID de equipo contienen un letra \n";
-					
-				}else {
-					
+				//comprobar si el dni tiene numeros
+				for (int o = 0; o < numeros.length;o++) {
+					if(dniText.getText().contains(numeros[o])){
+						dni2 =true;
+								
+					}
 				}
-			}
+				
+				if(dni2 == false) {
+					errores += "- El DNI debe contener al menos un numero \n";
+				}else {
+					requisitos++;
+				}
+					
+				
+				//comprobar si el salario o el ID son negativos
+				if (salarioText.getText().contains("-") || idequipoText.getText().contains("-")) {
+						errores += "- El salario y el ID de equipo no pueden ser negativos \n";
+						
+				}else {
+					requisitos++;
+				}
+				
+				//comprobar si el salario y el ID de equipo contienen alguna letra
+				for (int o = 0; o < letras.length;o++) {
+					if(idequipoText.getText().toLowerCase().contains(letras[o]) || salarioText.getText().toLowerCase().contains(letras[o])){
+						salId = true;
+					}
+				}
+				
+				if(salId == true) {
+					errores += "- El salario o el ID de equipo contienen un letra \n";
+				}else {
+					requisitos++;
+				}
+				
+				if (salarioText.getText().contains(" ") || dniText.getText().contains(" ")) {
+					errores += "- El salario o el ID de equipo contienen un espacio \n";
+				}else {
+					requisitos++;
+				}
+				
+				
+				if(dniReq) {
+					JOptionPane.showMessageDialog(ventana, "El DNI es un campo obligatorio y no puede\ntener espacios", 
+							"No se ha creado el futbolista", JOptionPane.ERROR_MESSAGE);
+				}else {
+				
+					if(requisitos < 6) {
+							JOptionPane.showMessageDialog(ventana, errores, 
+									"No se ha creado el futbolista", JOptionPane.ERROR_MESSAGE);
+						
+					}else {
+						JOptionPane.showMessageDialog(ventana, "Se ha creado el futbolista", "Futbolista creado", JOptionPane.INFORMATION_MESSAGE);
+						cumple = true;
+					}
+				}
 			
+				
+				/*
+				 * Esto es para evitar un error de formato de numero, sale cuando envias 
+				 * un string vacio y lo pasas a integer, cosa que es imposible.
+				 * Cuando le daba al boton de enviar, el metodo de insFutbolista recibia un string
+				 * que lo pasaba a integer con el parse int, pero si envias un string vacio
+				 * salia un error porque un espacio vacio no se puede pasar a int.
+				 */
+				String salario = salarioText.getText();
+				if(salarioText.getText().equals("")) {
+					salario = 0+"";
+				}
+				
+				String id = idequipoText.getText();
+				if(idequipoText.getText().equals("")) {
+					id = 0+"";
+				}
+				
 			
-			
-			if(requisitos < 4) {
-				JOptionPane.showMessageDialog(null, errores, 
-					"No se ha creado el futbolista", JOptionPane.ERROR_MESSAGE);
-			}else {
-				JOptionPane.showMessageDialog(null, "Se ha creado el futbolista", "Futbolista creado", JOptionPane.INFORMATION_MESSAGE);
-				cumple = true;
-			}
-			
-			}while(cumple == false);
-			
-			
-//			Futbol2.insFutbolista(dniText.getText().toUpperCase(), nombreText.getText(), apellidoText.getText(),
-//					Integer.parseInt(salarioText.getText()), Integer.parseInt(idequipoText.getText()));
-//			
-//
-//			ventana.setSize(800, 400);
-//			panelBloqueo.setBounds(0,0,230,400);
-//			candadoImg.setLocation(160, 10);
-//			dniText.setEditable(false);
-//			nombreText.setEditable(false);
-//			apellidoText.setEditable(false);
-//			salarioText.setEditable(false);
-//			idequipoText.setEditable(false);
-//			enviar.setLocation(650, 290);
-//			cont++;
+//				if(cumple == true) {
+//					Futbol2.insFutbolista(dniText.getText().toUpperCase(), nombreText.getText(), apellidoText.getText(),
+//							Integer.parseInt(salario), Integer.parseInt(id));
+//					
+//		
+//					ventana.setSize(800, 400);
+//					panelBloqueo.setBounds(0,0,230,400);
+//					candadoImg.setLocation(160, 10);
+//					dniText.setEditable(false);
+//					nombreText.setEditable(false);
+//					apellidoText.setEditable(false);
+//					salarioText.setEditable(false);
+//					idequipoText.setEditable(false);
+//					enviar.setLocation(650, 290);
+//					cont++;
+//				}
 			}else {
 				
 			}
