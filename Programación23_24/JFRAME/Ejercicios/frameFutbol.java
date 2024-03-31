@@ -20,6 +20,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+import javax.swing.border.Border;
 
 import dbClases.Equipo2;
 import dbClases.Futbolista2;
@@ -102,7 +104,7 @@ public class frameFutbol{
 			DniFut[i] = listaFutbolistas.get(i).getDni();	//aqui meto todos los dni
 		}
 		
-		Color colorCarta = new Color(211, 146, 20);
+		
 		
 		JFrame ventana = new JFrame("Agregar futbolista");
 		ventana.setResizable(false);
@@ -131,6 +133,8 @@ public class frameFutbol{
 		
 		Font fuente = new Font("Arial",Font.BOLD,14);	//fuente para los datos
 		
+		ArrayList<JTextField>listaValoresFut = new ArrayList<JTextField>();	//arraylist para comprobar un requisito para todos los jtextfields
+		
 		JLabel titulo = new JLabel("Futbolista");
 		titulo.setFont(new Font("Impact",0,30));
 		titulo.setBounds(40,20,200,30);
@@ -143,6 +147,7 @@ public class frameFutbol{
 		JTextField dniText = new JTextField();
 		dniText.setBounds(120,80,80,30);
 		dniText.setMargin(new Insets(0,7,0,7));
+		listaValoresFut.add(dniText);
 		dniText.setFont(fuente);
 		
 		JLabel nombreLabel = new JLabel("Nombre:");
@@ -152,6 +157,7 @@ public class frameFutbol{
 		JTextField nombreText = new JTextField();
 		nombreText.setBounds(120,120,80,30);
 		nombreText.setMargin(new Insets(0,7,0,7));
+		listaValoresFut.add(nombreText);
 		nombreText.setFont(fuente);
 		
 		JLabel apellidoLabel = new JLabel("Apellido:");
@@ -161,6 +167,7 @@ public class frameFutbol{
 		JTextField apellidoText = new JTextField();
 		apellidoText.setBounds(120,160,80,30);
 		apellidoText.setMargin(new Insets(0,7,0,7));
+		listaValoresFut.add(apellidoText);
 		apellidoText.setFont(fuente);
 		
 		JLabel salarioLabel = new JLabel("Salario:");
@@ -170,6 +177,7 @@ public class frameFutbol{
 		JTextField salarioText = new JTextField();
 		salarioText.setBounds(120,200,80,30);
 		salarioText.setMargin(new Insets(0,7,0,7));
+		listaValoresFut.add(salarioText);
 		salarioText.setFont(fuente);
 		
 		JLabel idequipoLabel = new JLabel("ID de equipo:");
@@ -179,6 +187,7 @@ public class frameFutbol{
 		JTextField idequipoText = new JTextField();
 		idequipoText.setBounds(120,240,80,30);
 		idequipoText.setMargin(new Insets(0,7,0,7));
+		listaValoresFut.add(idequipoText);
 		idequipoText.setFont(fuente);
 		
 		panel.add(dniLabel);panel.add(dniText);panel.add(nombreLabel);panel.add(nombreText);
@@ -204,6 +213,7 @@ public class frameFutbol{
 		panel.add(flechaImg);
 		
 		
+		//Esta carta solo va a ser para el diseño, luego la hago invisible y muestro otra.
 		JLabel cartaImg = new JLabel();
 		cartaImg.setBounds(400,0,260,335);
 		 
@@ -220,12 +230,11 @@ public class frameFutbol{
 			boolean cumple = false;
 			
 			//boolean para cada requisito
-			boolean dniReq = false, dni1 = false, dni2=false, salId = false;
+			boolean dniReq = false,dniIgual = false, dni1 = false, dni2=false, salId = false, comaPunto = false;
 			String errores = "Errores: \n";
 			
 			if(cont==0) {
 				
-			
 				//Con esto compruebo si el dni esta vacio o hay un espacio, asi tambien se hace un campo obligatorio
 				if (dniText.getText().equals("") || dniText.getText().contains(" ")) {
 					dniReq = true;
@@ -238,6 +247,12 @@ public class frameFutbol{
 					errores += "- El DNI debe tener 4 caracteres \n";
 				}
 				
+				//comprobar si el dni ya existe
+				for(int p = 0; p < DniFut.length;p++) {
+					if (dniText.getText().equalsIgnoreCase(DniFut[p])) {
+						dniIgual = true;
+					}
+				}
 				
 				//comprobar si el dni tiene alguna letra
 				for (int o = 0; o < letras.length;o++) {
@@ -295,19 +310,37 @@ public class frameFutbol{
 					requisitos++;
 				}
 				
+				for(int i = 0; i < listaValoresFut.size();i++) {
+					if (listaValoresFut.get(i).getText().contains(",") || listaValoresFut.get(i).getText().contains(".")) {
+						comaPunto = true;
+					}
+				}
+				
+				if(comaPunto == true) {
+					errores += "- No se puede introducir ningún punto o coma\n";
+				}else {
+					requisitos++;
+				}
+				
+
 				
 				if(dniReq) {
 					JOptionPane.showMessageDialog(ventana, "El DNI es un campo obligatorio y no puede\ntener espacios", 
 							"No se ha creado el futbolista", JOptionPane.ERROR_MESSAGE);
 				}else {
-				
-					if(requisitos < 6) {
-							JOptionPane.showMessageDialog(ventana, errores, 
-									"No se ha creado el futbolista", JOptionPane.ERROR_MESSAGE);
-						
+					if(dniIgual) {
+						JOptionPane.showMessageDialog(ventana, "El DNI ya existe, pon otro", 
+								"No se ha creado el futbolista", JOptionPane.ERROR_MESSAGE);
 					}else {
-						JOptionPane.showMessageDialog(ventana, "Se ha creado el futbolista", "Futbolista creado", JOptionPane.INFORMATION_MESSAGE);
-						cumple = true;
+				
+						if(requisitos < 7) {
+								JOptionPane.showMessageDialog(ventana, errores, 
+										"No se ha creado el futbolista", JOptionPane.ERROR_MESSAGE);
+							
+						}else {
+							JOptionPane.showMessageDialog(ventana, "Se han introducido bien los datos", "Datos correctos", JOptionPane.INFORMATION_MESSAGE);
+							cumple = true;
+						}
 					}
 				}
 			
@@ -330,24 +363,125 @@ public class frameFutbol{
 				}
 				
 			
-//				if(cumple == true) {
-//					Futbol2.insFutbolista(dniText.getText().toUpperCase(), nombreText.getText(), apellidoText.getText(),
-//							Integer.parseInt(salario), Integer.parseInt(id));
-//					
-//		
-//					ventana.setSize(800, 400);
-//					panelBloqueo.setBounds(0,0,230,400);
-//					candadoImg.setLocation(160, 10);
-//					dniText.setEditable(false);
-//					nombreText.setEditable(false);
-//					apellidoText.setEditable(false);
-//					salarioText.setEditable(false);
-//					idequipoText.setEditable(false);
-//					enviar.setLocation(650, 290);
-//					cont++;
-//				}
+				if(cumple == true) {
+					
+		
+					ventana.setSize(800, 400);
+					panelBloqueo.setBounds(0,0,230,400);
+					candadoImg.setLocation(160, 10);
+					dniText.setEditable(false);
+					nombreText.setEditable(false);
+					apellidoText.setEditable(false);
+					salarioText.setEditable(false);
+					idequipoText.setEditable(false);
+					cartaImg.setVisible(false);
+					enviar.setLocation(650, 290);
+					cont++;
+					
+					//Parte de la carta
+					Color colorCarta = new Color(70, 57, 12);
+					Font fuentaCartaNum = new Font("arial",Font.BOLD,22);
+					
+					JLabel nombreFut = new JLabel(nombreText.getText().toUpperCase(), SwingConstants.CENTER);	//esto centra el texto del JLabel
+					nombreFut.setFont(new Font("arial",Font.BOLD,20));
+					nombreFut.setForeground(colorCarta);
+					nombreFut.setBounds(400,185,260,20);
+					panel.add(nombreFut);
+					
+					
+					//Labels para avisar al usuario de cómo se introduce un valor
+					JLabel aviso = new JLabel("Pon el cursor al lado");
+					aviso.setFont(new Font("arial",0,12));
+					aviso.setBounds(650,220,150,12);
+					panel.add(aviso);
+					
+					JLabel aviso2 = new JLabel("de cada estadística");
+					aviso2.setFont(new Font("arial",0,12));
+					aviso2.setBounds(650,234,150,12);
+					panel.add(aviso2);
+					
+					JLabel aviso3 = new JLabel("para introducir un valor");
+					aviso3.setFont(new Font("arial",0,12));
+					aviso3.setBounds(650,248,150,12);
+					panel.add(aviso3);
+					
+					/*
+					 * Aqui van los JTextFields para poner los numeros de cada atributo.
+					 * Estos no podran ser mayores a 100 ni menores a 0. Si se deja cualquiera
+					 * vacio, este sera reconocido como 0.
+					 */
+					JTextField ritmo = new JTextField();
+					ritmo.setHorizontalAlignment(SwingConstants.RIGHT);
+					ritmo.setFont(fuentaCartaNum);
+					ritmo.setForeground(colorCarta);
+					ritmo.setOpaque(false);
+					ritmo.setBorder(null);
+					ritmo.setBounds(450,217,33,20);
+					panel.add(ritmo);
+					
+					JTextField tiro = new JTextField();
+					tiro.setHorizontalAlignment(SwingConstants.RIGHT);
+					tiro.setFont(fuentaCartaNum);
+					tiro.setForeground(colorCarta);
+					tiro.setOpaque(false);
+					tiro.setBorder(null);
+					tiro.setBounds(450,240,33,20);
+					panel.add(tiro);
+					
+					JTextField pase = new JTextField();
+					pase.setHorizontalAlignment(SwingConstants.RIGHT);
+					pase.setFont(fuentaCartaNum);
+					pase.setForeground(colorCarta);
+					pase.setOpaque(false);
+					pase.setBorder(null);
+					pase.setBounds(450,264,33,20);
+					panel.add(pase);
+					
+					JTextField regate = new JTextField();
+					regate.setHorizontalAlignment(SwingConstants.RIGHT);
+					regate.setFont(fuentaCartaNum);
+					regate.setForeground(colorCarta);
+					regate.setOpaque(false);
+					regate.setBorder(null);
+					regate.setBounds(540,217,33,20);
+					panel.add(regate);
+					
+					JTextField defensa = new JTextField();
+					defensa.setHorizontalAlignment(SwingConstants.RIGHT);
+					defensa.setFont(fuentaCartaNum);
+					defensa.setForeground(colorCarta);
+					defensa.setOpaque(false);
+					defensa.setBorder(null);
+					defensa.setBounds(540,240,33,20);
+					panel.add(defensa);
+					
+					JTextField fisico = new JTextField();
+					fisico.setHorizontalAlignment(SwingConstants.RIGHT);
+					fisico.setFont(fuentaCartaNum);
+					fisico.setForeground(colorCarta);
+					fisico.setOpaque(false);
+					fisico.setBorder(null);
+					fisico.setBounds(540,264,33,20);
+					panel.add(fisico);
+					
+					
+					//Imagen de la carta sobre la que van todos los textfields y el nombre
+					JLabel cartaImg2 = new JLabel();
+					cartaImg2.setBounds(400,0,260,335);		
+					
+					ImageIcon carta4 = new ImageIcon("JFRAME\\imgs\\carta.png");
+					Icon carta3 = new ImageIcon(carta4.getImage().getScaledInstance(cartaImg2.getWidth(), cartaImg2.getHeight(), Image.SCALE_SMOOTH));
+					cartaImg2.setIcon(carta3);
+					panel.add(cartaImg2);
+				}
 			}else {
 				
+				cont=0;
+				
+				
+//				Futbol2.insFutbolista(dniText.getText().toUpperCase(), nombreText.getText(), apellidoText.getText(),
+//				Integer.parseInt(salario), Integer.parseInt(id));
+//				cartaFut.insCarta(dniText.getText().toUpperCase(), ritmo, tiro, pase, regate, defensa, fisico);
 			}
 			
 		});
