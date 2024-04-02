@@ -56,6 +56,34 @@ public class cartaFut {
 		
 		return lista;
 	}
+
+	public static carta cartaxDni(String dni) {
+		
+		Connection con = conexion();
+		carta ca = null;
+		
+		try {
+			Statement st = con.createStatement();
+			String sql = "SELECT * FROM cartafutbolista WHERE dni='" + dni + "'";
+			ResultSet rs = st.executeQuery(sql);
+			while(rs.next()) {
+				String dniCarta = rs.getString(0);
+				int ritmo = rs.getInt(1);
+				int tiro = rs.getInt(2);
+				int pase = rs.getInt(3);
+				int regate = rs.getInt(4);
+				int defensa = rs.getInt(5);
+				int fisico = rs.getInt(6);
+				
+				ca = new carta(dniCarta, ritmo, tiro, pase, regate, defensa, fisico);
+				
+			}
+		}catch (SQLException e) {
+			System.err.println("Error en el statement de cartaxDni().");
+		}
+		
+		return ca;
+	}
 	
 	public static void insCarta(String dni, int ritmo, int tiro, int pase, int regate, int defensa, int fisico) {
 		Connection con = conexion();

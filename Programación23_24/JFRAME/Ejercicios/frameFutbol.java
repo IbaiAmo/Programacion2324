@@ -24,6 +24,7 @@ import javax.swing.SwingConstants;
 
 import dbClases.Equipo2;
 import dbClases.Futbolista2;
+import dbClases.carta;
 import dbModelo.Futbol2;
 import dbModelo.cartaFut;
 import dbModelo.equipoFutbol2;
@@ -225,6 +226,11 @@ public class frameFutbol{
 		
 		//ArrayList para las estadisticas de la carta
 		ArrayList<JTextField> estadisticas = new ArrayList<JTextField>();
+		
+		/*Aqui ya creo los JTextFields porque al llamar al método de insCarta()
+		 * le paso los textos de cada uno, pero no los reconoce, por lo cual
+		 * los pongo aqui arriba y luego más abajo los hago aparecer y les doy funciones.
+		 */
 		JTextField ritmo = new JTextField();
 		JTextField tiro = new JTextField();
 		JTextField pase = new JTextField();
@@ -233,12 +239,6 @@ public class frameFutbol{
 		JTextField fisico = new JTextField();
 		
 		enviar.addActionListener(e ->{
-			
-			/*Aqui ya creo los JTextFields porque al llamar al método de insCarta()
-			 * le paso los textos de cada uno, pero no los reconoce, por lo cual
-			 * los pongo aqui arriba y luego más abajo los hago aparecer y les doy funciones.
-			 */
-			
 			
 			int requisitos = 0;	//variable para que antes de crear el futbolista cumpla los requisitos de entrada de datos
 			boolean cumple = false;
@@ -610,7 +610,7 @@ public class frameFutbol{
 
 		
 		JFrame idJug = new JFrame("Mostrar jugador por ID");
-		idJug.setSize(600, 150);
+		idJug.setSize(600, 400);
 		idJug.setIconImage(icono.getImage());
 		idJug.setLayout(null);
 		idJug.setResizable(false);
@@ -649,7 +649,7 @@ public class frameFutbol{
 		//panel para mostrar el futbolista
 		
 		JPanel panel2 = new JPanel();
-		panel2.setBounds(0,50,600, 100);
+		panel2.setBounds(0,50,600, 30);
 		panel2.setBackground(Color.WHITE);
 		panel2.setLayout(new FlowLayout(FlowLayout.LEFT));
 		idJug.add(panel2);
@@ -658,15 +658,127 @@ public class frameFutbol{
 		textoJug.setFont(new Font("Arial",Font.BOLD,13));
 		
 		panel2.add(textoJug);
-		idJug.setVisible(true);
+		
+		
+		//panel para mostrar la carta
+		JPanel panelCarta = new JPanel();
+		panelCarta.setBackground(Color.WHITE);
+		panelCarta.setBounds(0,80,600,320);
+		panelCarta.setLayout(null);
+		idJug.add(panelCarta);
+		
+		JLabel cartaImg = new JLabel();
+		cartaImg.setBounds(180,0,210,285);
+		 
+		ImageIcon carta = new ImageIcon("JFRAME\\imgs\\carta.png");
+		Icon carta2 = new ImageIcon(carta.getImage().getScaledInstance(cartaImg.getWidth(), cartaImg.getHeight(), Image.SCALE_SMOOTH));
+        cartaImg.setIcon(carta2);
+        
+        Color colorCarta = new Color(70, 57, 12);
+		Font fuenteCartaNum = new Font("arial",Font.BOLD,18);
+        
+        JLabel nombreJug = new JLabel();
+        nombreJug.setFont(new Font("arial",Font.BOLD,20));
+        nombreJug.setHorizontalAlignment(SwingConstants.CENTER);
+        nombreJug.setBounds(180,155,210,20);
+        nombreJug.setForeground(colorCarta);
+        panelCarta.add(nombreJug);
+        
+        JLabel ritmo = new JLabel();
+        ritmo.setForeground(colorCarta);
+        ritmo.setFont(fuenteCartaNum);
+        ritmo.setHorizontalAlignment(SwingConstants.RIGHT);
+        ritmo.setBounds(193,184,50,18);
+        panelCarta.add(ritmo);
+        
+        JLabel tiro = new JLabel();
+        tiro.setForeground(colorCarta);
+        tiro.setFont(fuenteCartaNum);
+        tiro.setHorizontalAlignment(SwingConstants.RIGHT);
+        tiro.setBounds(193,204,50,18);
+        panelCarta.add(tiro);
+        
+        JLabel pase = new JLabel();
+        pase.setForeground(colorCarta);
+        pase.setFont(fuenteCartaNum);
+        pase.setHorizontalAlignment(SwingConstants.RIGHT);
+        pase.setBounds(193,224,50,18);
+        panelCarta.add(pase);
+        
+        JLabel regate = new JLabel();
+        regate.setForeground(colorCarta);
+        regate.setFont(fuenteCartaNum);
+        regate.setHorizontalAlignment(SwingConstants.RIGHT);
+        regate.setBounds(267,184,50,18);
+        panelCarta.add(regate);
+        
+        JLabel defensa = new JLabel();
+        defensa.setForeground(colorCarta);
+        defensa.setFont(fuenteCartaNum);
+        defensa.setHorizontalAlignment(SwingConstants.RIGHT);
+        defensa.setBounds(267,204,50,18);
+        panelCarta.add(defensa);
+        
+        JLabel fisico = new JLabel();
+        fisico.setForeground(colorCarta);
+        fisico.setFont(fuenteCartaNum);
+        fisico.setHorizontalAlignment(SwingConstants.RIGHT);
+        fisico.setBounds(267,224,50,18);
+        panelCarta.add(fisico);
+        
+        JLabel media = new JLabel();
+        media.setForeground(colorCarta);
+        media.setFont(new Font("arial",Font.BOLD, 27));
+        media.setHorizontalAlignment(SwingConstants.LEFT);
+        media.setBounds(223,35,50,27);
+        panelCarta.add(media);
+        
+        panelCarta.add(cartaImg);
+        
+        ArrayList<carta>listaDeCartas = cartaFut.listaCartas();
 		
 		btn_elegir.addActionListener(e ->{
-			textoJug.setText(Futbol2.dniFutbolista(elegirDni.getSelectedItem().toString()));
+			textoJug.setText(Futbol2.dniFutbolista(elegirDni.getSelectedItem().toString()).toString());
+			nombreJug.setText(Futbol2.dniFutbolista(elegirDni.getSelectedItem().toString()).getNombre().toUpperCase());
+			
+			//Aqui voy a sacar las estadísticas de cada jugador comparando cada dni y con que elegimos del JComboBox
+			int cartaEspecifica = 0, mediaCalc = 0;
+			
+			
+			for (int i = 0; i < listaDeCartas.size();i++) {
+				if (listaDeCartas.get(i).getDni().equalsIgnoreCase(elegirDni.getSelectedItem().toString())) {
+					cartaEspecifica = i;
+				}
+				
+			}
+			
+			ritmo.setText(listaDeCartas.get(cartaEspecifica).getRitmo()+"");
+			tiro.setText(listaDeCartas.get(cartaEspecifica).getTiro()+"");
+			pase.setText(listaDeCartas.get(cartaEspecifica).getPase()+"");
+			regate.setText(listaDeCartas.get(cartaEspecifica).getRegate()+"");
+			defensa.setText(listaDeCartas.get(cartaEspecifica).getDefensa()+"");
+			fisico.setText(listaDeCartas.get(cartaEspecifica).getFisico()+"");
+			
+			mediaCalc = (listaDeCartas.get(cartaEspecifica).getRitmo()+listaDeCartas.get(cartaEspecifica).getTiro()
+					+listaDeCartas.get(cartaEspecifica).getPase() + listaDeCartas.get(cartaEspecifica).getRegate() +
+					listaDeCartas.get(cartaEspecifica).getDefensa() + listaDeCartas.get(cartaEspecifica).getFisico()) / 6;
+			
+			media.setText(mediaCalc + "");
+			
+		
 		});
 		btn_eliminar.addActionListener(e ->{
 			textoJug.setText(null);
+			nombreJug.setText(null);
+			ritmo.setText(null);
+			tiro.setText(null);
+			pase.setText(null);
+			regate.setText(null);
+			defensa.setText(null);
+			fisico.setText(null);
 		});
 		
+		idJug.setVisible(true);
 		return idJug;
 	}
 	
