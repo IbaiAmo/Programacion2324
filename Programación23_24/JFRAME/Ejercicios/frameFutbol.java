@@ -21,11 +21,11 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
-import javax.swing.border.Border;
 
 import dbClases.Equipo2;
 import dbClases.Futbolista2;
 import dbModelo.Futbol2;
+import dbModelo.cartaFut;
 import dbModelo.equipoFutbol2;
 
 
@@ -222,9 +222,23 @@ public class frameFutbol{
         cartaImg.setIcon(carta2);
 		panel.add(cartaImg);
 		
-
+		
+		//ArrayList para las estadisticas de la carta
+		ArrayList<JTextField> estadisticas = new ArrayList<JTextField>();
+		JTextField ritmo = new JTextField();
+		JTextField tiro = new JTextField();
+		JTextField pase = new JTextField();
+		JTextField regate = new JTextField();
+		JTextField defensa = new JTextField();
+		JTextField fisico = new JTextField();
 		
 		enviar.addActionListener(e ->{
+			
+			/*Aqui ya creo los JTextFields porque al llamar al método de insCarta()
+			 * le paso los textos de cada uno, pero no los reconoce, por lo cual
+			 * los pongo aqui arriba y luego más abajo los hago aparecer y les doy funciones.
+			 */
+			
 			
 			int requisitos = 0;	//variable para que antes de crear el futbolista cumpla los requisitos de entrada de datos
 			boolean cumple = false;
@@ -352,17 +366,17 @@ public class frameFutbol{
 				 * que lo pasaba a integer con el parse int, pero si envias un string vacio
 				 * salia un error porque un espacio vacio no se puede pasar a int.
 				 */
-				String salario = salarioText.getText();
+				
 				if(salarioText.getText().equals("")) {
-					salario = 0+"";
+					salarioText.setText("0");
 				}
 				
-				String id = idequipoText.getText();
+				
 				if(idequipoText.getText().equals("")) {
-					id = 0+"";
+					idequipoText.setText("0");
 				}
 				
-			
+				
 				if(cumple == true) {
 					
 		
@@ -407,61 +421,70 @@ public class frameFutbol{
 					
 					/*
 					 * Aqui van los JTextFields para poner los numeros de cada atributo.
+					 * Estos ya están creados de antes para lugo poder crear la carta.
 					 * Estos no podran ser mayores a 100 ni menores a 0. Si se deja cualquiera
-					 * vacio, este sera reconocido como 0.
+					 * vacio, este sera reconocido como 0. Tambien estarán todos en un arraylist
+					 * para luego hacer los requisitos, será más facil manejarlos así.
 					 */
-					JTextField ritmo = new JTextField();
+					
+					
 					ritmo.setHorizontalAlignment(SwingConstants.RIGHT);
 					ritmo.setFont(fuentaCartaNum);
 					ritmo.setForeground(colorCarta);
 					ritmo.setOpaque(false);
 					ritmo.setBorder(null);
 					ritmo.setBounds(450,217,33,20);
+					estadisticas.add(ritmo);
 					panel.add(ritmo);
 					
-					JTextField tiro = new JTextField();
+					
 					tiro.setHorizontalAlignment(SwingConstants.RIGHT);
 					tiro.setFont(fuentaCartaNum);
 					tiro.setForeground(colorCarta);
 					tiro.setOpaque(false);
 					tiro.setBorder(null);
 					tiro.setBounds(450,240,33,20);
+					estadisticas.add(tiro);
 					panel.add(tiro);
 					
-					JTextField pase = new JTextField();
+					
 					pase.setHorizontalAlignment(SwingConstants.RIGHT);
 					pase.setFont(fuentaCartaNum);
 					pase.setForeground(colorCarta);
 					pase.setOpaque(false);
 					pase.setBorder(null);
 					pase.setBounds(450,264,33,20);
+					estadisticas.add(pase);
 					panel.add(pase);
 					
-					JTextField regate = new JTextField();
+					
 					regate.setHorizontalAlignment(SwingConstants.RIGHT);
 					regate.setFont(fuentaCartaNum);
 					regate.setForeground(colorCarta);
 					regate.setOpaque(false);
 					regate.setBorder(null);
 					regate.setBounds(540,217,33,20);
+					estadisticas.add(regate);
 					panel.add(regate);
 					
-					JTextField defensa = new JTextField();
+					
 					defensa.setHorizontalAlignment(SwingConstants.RIGHT);
 					defensa.setFont(fuentaCartaNum);
 					defensa.setForeground(colorCarta);
 					defensa.setOpaque(false);
 					defensa.setBorder(null);
 					defensa.setBounds(540,240,33,20);
+					estadisticas.add(defensa);
 					panel.add(defensa);
 					
-					JTextField fisico = new JTextField();
+					
 					fisico.setHorizontalAlignment(SwingConstants.RIGHT);
 					fisico.setFont(fuentaCartaNum);
 					fisico.setForeground(colorCarta);
 					fisico.setOpaque(false);
 					fisico.setBorder(null);
 					fisico.setBounds(540,264,33,20);
+					estadisticas.add(fisico);
 					panel.add(fisico);
 					
 					
@@ -476,12 +499,105 @@ public class frameFutbol{
 				}
 			}else {
 				
-				cont=0;
+				/*
+				 *Esta parte es de cuando pulsamos el boton la segunda vez, seria para crear el
+				 *futbolista y la carta.
+				 *Primero los requisitos antes de la creacion. Requisitos:
+				 *1.El valor no puede tener ninguna letra.
+				 *2.El valor es mayor o igual a cero y menor que 100.
+				 *3.El valor no puede tener ningun espacio.
+				 *4.EL valor no puede tener ni coma ni punto.
+				 */
+				
+				//Booleans para los requisitos
+				boolean noLetra = false, numNoValido = false, espacio = false, puntoComa = false, vacio = false;
+				
+				//String para avisar de cualquier error
+				String errorCarta = "Errores:\n";
+				
+				//int para contar los requisitos que se cumplen
+				int reqCarta = 0;
 				
 				
-//				Futbol2.insFutbolista(dniText.getText().toUpperCase(), nombreText.getText(), apellidoText.getText(),
-//				Integer.parseInt(salario), Integer.parseInt(id));
-//				cartaFut.insCarta(dniText.getText().toUpperCase(), ritmo, tiro, pase, regate, defensa, fisico);
+				//comprobar si algún valor tiene una letra
+				for(int i = 0; i < estadisticas.size();i++) {
+					for(int m = 0; m < letras.length;m++) {
+						if (estadisticas.get(i).getText().contains(letras[m])) {
+							noLetra = true;
+						}
+					}
+				}
+				
+				if(noLetra) {
+					JOptionPane.showMessageDialog(ventana, "No se pueden introducir letras", "ERROR", JOptionPane.ERROR_MESSAGE);
+				}else {
+					
+					//Comprobar si el numero es un valor entre 0 y 99
+					for(int i = 0; i < estadisticas.size();i++) {
+						if(estadisticas.get(i).getText().contains("-") || estadisticas.get(i).getText().length() == 3) {
+							numNoValido = true;
+						}
+					}
+					
+					if(numNoValido) {
+						errorCarta += "- El valor tiene que ser entre 0 y 99\n";
+					}else {
+						reqCarta++;
+					}
+					
+					
+					//comprobar si está vacío o hay algún espacio. Si está vacio cambio a cero el valor de cada estadística					
+					
+					for(int i = 0; i < estadisticas.size();i++) {	
+						if(estadisticas.get(i).getText().equals("")) {
+							vacio = true;
+						}else if(estadisticas.get(i).getText().contains(" ")) {
+							espacio = true;
+						}
+					}
+					
+					if(vacio) {
+						errorCarta += "- No puedes dejar el valor vacío\n";
+					}else {
+						reqCarta++;
+					}
+					
+					if (espacio) {
+						errorCarta += "- No puede haber espacios\n";
+					}else {
+						reqCarta++;
+					}
+					
+					//comprobar si hay alguna coma o punto
+					for(int i = 0; i < estadisticas.size();i++) {
+						if (estadisticas.get(i).getText().contains(",") || estadisticas.get(i).getText().contains(".")) {
+							puntoComa = true;
+						}
+					}
+					
+					if(puntoComa) {
+						errorCarta += "- No puede haber ni puntos ni comas\n";
+					}else {
+						reqCarta++;
+					}
+					
+					if(reqCarta == 4) {
+						JOptionPane.showMessageDialog(ventana, "Jugador y carta creados", "Éxito",JOptionPane.INFORMATION_MESSAGE);
+						Futbol2.insFutbolista(dniText.getText().toUpperCase(), nombreText.getText(), apellidoText.getText(),
+								Integer.parseInt(salarioText.getText()), Integer.parseInt(idequipoText.getText()));
+						
+						cartaFut.insCarta(dniText.getText().toUpperCase(), Integer.parseInt(ritmo.getText()), 
+								Integer.parseInt(tiro.getText()), Integer.parseInt(pase.getText()), 
+								Integer.parseInt(regate.getText()), Integer.parseInt(defensa.getText()), Integer.parseInt(fisico.getText()));
+						cont = 0;
+						ventana.setVisible(false);
+					}else {
+						JOptionPane.showMessageDialog(ventana, errorCarta, "No se ha podido crear la carta", JOptionPane.ERROR_MESSAGE);
+					}
+					
+				}
+				
+				
 			}
 			
 		});
