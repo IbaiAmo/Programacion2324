@@ -110,6 +110,7 @@ public class frameFutbol{
 		JFrame ventana = new JFrame("Agregar futbolista");
 		ventana.setResizable(false);
 		ventana.setSize(700, 400);
+		ventana.setIconImage(icono.getImage());
 		
 		JPanel panel = new JPanel();
 		panel.setBackground(Color.WHITE);
@@ -606,7 +607,148 @@ public class frameFutbol{
 		return ventana;
 	}
 	
-	private static JFrame idJug(ImageIcon icono) {
+	private static JFrame agregarEquipo(ImageIcon icono) {
+		
+		//arraylist de los equipos para comprobar si ya existe el id y el nombre
+		ArrayList<Equipo2>listaEquipos = equipoFutbol2.verEquipos();
+		
+		JFrame ventana = new JFrame("Agregar Equipo");
+		ventana.setResizable(false);
+		ventana.setSize(300,430);
+		ventana.setIconImage(icono.getImage());
+		
+		Font fuenteLabels = new Font("arial",Font.BOLD,17);
+		Font fuenteInputs = new Font("arial",0,15);
+		
+		
+		JPanel panelValores = new JPanel();
+		panelValores.setBounds(0,50,300,430);
+		panelValores.setBackground(Color.white);
+		panelValores.setLayout(null);
+		ventana.add(panelValores);
+		
+		JLabel titulo = new JLabel("CREAR EQUIPO", SwingConstants.CENTER);
+		titulo.setBounds(0, 20, 300,30);
+		titulo.setFont(new Font("impact", 0, 30));
+		panelValores.add(titulo);
+		
+		JLabel id= new JLabel("ID de equipo", SwingConstants.CENTER);
+		id.setBounds(0,80,300,17);
+		id.setFont(fuenteLabels);
+		panelValores.add(id);
+		
+		JLabel idTexto = new JLabel();
+		idTexto.setBounds(0,100,300,17);
+		idTexto.setFont(fuenteLabels);
+		idTexto.setHorizontalAlignment(SwingConstants.CENTER);
+		idTexto.setText((listaEquipos.size()+1)+"");
+		panelValores.add(idTexto);
+		
+		JLabel nombre = new JLabel("Nombre de equipo", SwingConstants.CENTER);
+		nombre.setBounds(0,140,300,17);
+		nombre.setFont(fuenteLabels);
+		panelValores.add(nombre);
+		
+		JTextField nombreInput = new JTextField();
+		nombreInput.setBounds(60,160,180,30);
+		nombreInput.setFont(fuenteInputs);
+		nombreInput.setHorizontalAlignment(SwingConstants.CENTER);
+		panelValores.add(nombreInput);
+		
+		JLabel ciudad = new JLabel("Ciudad", SwingConstants.CENTER);
+		ciudad.setBounds(0,220,300,17);
+		ciudad.setFont(fuenteLabels);
+		panelValores.add(ciudad);
+		
+		JTextField ciudadInput = new JTextField();
+		ciudadInput.setBounds(60,240,180,30);
+		ciudadInput.setFont(fuenteInputs);
+		ciudadInput.setHorizontalAlignment(SwingConstants.CENTER);
+		panelValores.add(ciudadInput);
+		
+		JButton boton = new JButton("Enviar");
+		boton.setBounds(100,300,100,50);
+		panelValores.add(boton);
+		
+		boton.addActionListener(e ->{
+			
+			/*
+			 * Cuando el boton se pulse se van a comprobar los datos y si todo está bien
+			 * se creará el equipo. Como requisito, los valores no pueden ser vacíos, no se pueden repetir
+			 * si ya existe (solo el nombre de equipo, ya que en una ciudad pueden haber más de un equipo)
+			 * y no se podrán introducir números.
+			 */
+			
+			boolean nombreRep = false, numEnc = false, letraEnc = false, letra2Enc = false;
+			int requisitos = 0;
+			String error = "Errores:\n";
+			
+			//comprobar si existe el valor introducido del nombre
+			for (int i = 0; i < listaEquipos.size(); i++) {
+				if(nombreInput.getText().equalsIgnoreCase(listaEquipos.get(i).getNombre())) {
+					nombreRep = true;
+				}
+			}
+			
+			if(nombreRep) {
+				JOptionPane.showMessageDialog(ventana, "Ese nombre ya existe", "ERROR", JOptionPane.ERROR_MESSAGE);
+			}else {
+				
+				//comprobar si algún valor está vacío				
+				for(int i = 0; i < letras.length; i++) {
+					if (nombreInput.getText().contains(letras[i])) {
+						letraEnc = true;
+						
+					/*
+					 * Lo suyo sería poner un else if pero va mal si lo ponemos
+					 * porque si el primer if se cumple, el segundo no se va a
+					 * comprobar. El problema es que si introducimos el mismo valor
+					 * en los dos campos teniendo puesto el else if, nos saltará
+					 * el error de que hay un campo vacío cuando sí que tiene algo escrito.
+					 * Eso es porque si introducimos una letra, esta en el else if no se
+					 * va a comprobar y contaría como vacío.
+					 */
+					}if(ciudadInput.getText().contains(letras[i])) {
+						letra2Enc = true;
+					}
+				}
+				
+				if(letraEnc && letra2Enc) {
+					requisitos++;
+				}else{
+					error += "- No puedes dejar un campo vacío\n";
+				}
+				
+				
+				//comprobar si tiene algún número
+				for(int i = 0; i < numeros.length;i++) {
+					if (nombreInput.getText().contains(numeros[i]) || ciudadInput.getText().contains(numeros[i])) {
+						numEnc = true;
+					}
+				}
+				
+				if(numEnc) {
+					error += "- No puedes introducir números\n";
+				}else {
+					requisitos++;
+				}
+	
+				if (requisitos == 2) {
+					JOptionPane.showMessageDialog(ventana, "Equipo creado", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+					ventana.setVisible(false);
+					equipoFutbol2.insEquipo(nombreInput.getText(), ciudadInput.getText());
+				}else {
+					JOptionPane.showMessageDialog(ventana, error, "No se ha creado el equipo", JOptionPane.ERROR_MESSAGE);
+				}
+			}
+			
+		});
+		
+		ventana.setVisible(true);
+		return ventana;
+	}
+	
+ 	private static JFrame idJug(ImageIcon icono) {
 
 		
 		JFrame idJug = new JFrame("Mostrar jugador por ID");
@@ -930,7 +1072,7 @@ public class frameFutbol{
 		});
 		
 		btn_ae.addActionListener(e -> {
-			
+			agregarEquipo(icono);
 		});
 		
 		btn_idf.addActionListener(e -> {
