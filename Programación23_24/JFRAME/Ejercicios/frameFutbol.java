@@ -1,15 +1,18 @@
 package Ejercicios;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Image;
 import java.awt.Insets;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.util.ArrayList;
 
-import javax.swing.BorderFactory;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -33,15 +36,14 @@ import dbModelo.equipoFutbol2;
 
 public class frameFutbol{
 	
-	private static int cont = 0;	//Este es un contador que contará los clicks del boton enviar (solo 0 y 1). 
-							//Esto es porque uso el mismo boton para crear cada cosa.
 	
 	private static String[] letras = {"a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", 
 			"m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"};	//array para luego comprobar los datos introducidos
 	
 	private static String[] numeros = {"0","1","2","3","4","5","6","7","8","9"};	//array para comprobar si el dniFutbolista tiene numeros
 	
- 	private static JFrame mostrarJug(ImageIcon icono) { 
+	
+  	private static JFrame mostrarJug(ImageIcon icono) { 
 		
 		JFrame verJugadores = new JFrame("Lista de jugadores");
 		verJugadores.setSize(600, 400);
@@ -109,28 +111,13 @@ public class frameFutbol{
 		
 		JFrame ventana = new JFrame("Agregar futbolista");
 		ventana.setResizable(false);
-		ventana.setSize(700, 400);
+		ventana.setSize(800, 400);
 		ventana.setIconImage(icono.getImage());
 		
 		JPanel panel = new JPanel();
-		panel.setBackground(Color.WHITE);
+		panel.setBackground(new Color(40, 150, 45));
 		panel.setLayout(null);
 		ventana.add(panel);
-		
-		JPanel panelBloqueo = new JPanel();	//Esto es para bloquear la zona de la carta y luego la del futbolista
-		panelBloqueo.setBounds(370, 0, 330, 400);
-		panelBloqueo.setBackground(new Color(0, 0, 0, 100));
-		panelBloqueo.setLayout(null);
-		panel.add(panelBloqueo);
-		
-		
-		JLabel candadoImg = new JLabel();
-		candadoImg.setBounds(10,10,60,80);
-		 
-		ImageIcon candado = new ImageIcon("JFRAME\\imgs\\candado.png");
-		Icon candado2 = new ImageIcon(candado.getImage().getScaledInstance(candadoImg.getWidth(), candadoImg.getHeight(), Image.SCALE_SMOOTH));
-		candadoImg.setIcon(candado2);
-		panelBloqueo.add(candadoImg);
 		
 		
 		Font fuente = new Font("Arial",Font.BOLD,14);	//fuente para los datos
@@ -140,6 +127,7 @@ public class frameFutbol{
 		JLabel titulo = new JLabel("Futbolista");
 		titulo.setFont(new Font("Impact",0,30));
 		titulo.setBounds(40,20,200,30);
+		titulo.setForeground(Color.white);
 		panel.add(titulo);
 		
 		JLabel dniLabel = new JLabel("DNI:");
@@ -197,32 +185,14 @@ public class frameFutbol{
 		panel.add(salarioText);panel.add(idequipoLabel);panel.add(idequipoText);
 		
 		JButton enviar = new JButton("Crear");
-		enviar.setBounds(35,290,130,50);
+		enviar.setBounds(650,290,130,50);
 		enviar.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		enviar.setBackground(new Color(236, 236, 236));
+		enviar.setBorder(null);
 		panel.add(enviar);
 		
 		
 		//Parte de la creacion de la carta
-		
-		
-		
-		JLabel flechaImg = new JLabel();
-		flechaImg.setBounds(200,100,200,130);
-		 
-		ImageIcon flecha = new ImageIcon("JFRAME\\imgs\\flecha.png");
-		Icon flecha2 = new ImageIcon(flecha.getImage().getScaledInstance(flechaImg.getWidth(), flechaImg.getHeight(), Image.SCALE_SMOOTH));
-		flechaImg.setIcon(flecha2);
-		panel.add(flechaImg);
-		
-		
-		//Esta carta solo va a ser para el diseño, luego la hago invisible y muestro otra.
-		JLabel cartaImg = new JLabel();
-		cartaImg.setBounds(400,0,260,335);
-		 
-		ImageIcon carta = new ImageIcon("JFRAME\\imgs\\carta.png");
-		Icon carta2 = new ImageIcon(carta.getImage().getScaledInstance(cartaImg.getWidth(), cartaImg.getHeight(), Image.SCALE_SMOOTH));
-        cartaImg.setIcon(carta2);
-		panel.add(cartaImg);
 		
 		
 		//ArrayList para las estadisticas de la carta
@@ -239,17 +209,131 @@ public class frameFutbol{
 		JTextField defensa = new JTextField();
 		JTextField fisico = new JTextField();
 		
+		
+		//Parte de la carta
+		Color colorCarta = new Color(70, 57, 12);
+		Font fuentaCartaNum = new Font("arial",Font.BOLD,22);
+		
+		
+		//Labels para avisar al usuario de cómo se introduce un valor
+		JLabel aviso = new JLabel("Pon el cursor al lado");
+		aviso.setFont(new Font("arial",0,12));
+		aviso.setBounds(650,220,150,12);
+		panel.add(aviso);
+		
+		JLabel aviso2 = new JLabel("de cada estadística");
+		aviso2.setFont(new Font("arial",0,12));
+		aviso2.setBounds(650,234,150,12);
+		panel.add(aviso2);
+		
+		JLabel aviso3 = new JLabel("para introducir un valor");
+		aviso3.setFont(new Font("arial",0,12));
+		aviso3.setBounds(650,248,150,12);
+		panel.add(aviso3);
+		
+		/*
+		 * Aqui van los JTextFields para poner los numeros de cada atributo.
+		 * Estos ya están creados de antes para lugo poder crear la carta.
+		 * Estos no podran ser mayores a 100 ni menores a 0. Si se deja cualquiera
+		 * vacio, este sera reconocido como 0. Tambien estarán todos en un arraylist
+		 * para luego hacer los requisitos, será más facil manejarlos así.
+		 */
+		
+		
+		ritmo.setHorizontalAlignment(SwingConstants.RIGHT);
+		ritmo.setFont(fuentaCartaNum);
+		ritmo.setForeground(colorCarta);
+		ritmo.setOpaque(false);
+		ritmo.setBorder(null);
+		ritmo.setBounds(450,217,33,20);
+		estadisticas.add(ritmo);
+		panel.add(ritmo);
+		
+		
+		tiro.setHorizontalAlignment(SwingConstants.RIGHT);
+		tiro.setFont(fuentaCartaNum);
+		tiro.setForeground(colorCarta);
+		tiro.setOpaque(false);
+		tiro.setBorder(null);
+		tiro.setBounds(450,240,33,20);
+		estadisticas.add(tiro);
+		panel.add(tiro);
+		
+		
+		pase.setHorizontalAlignment(SwingConstants.RIGHT);
+		pase.setFont(fuentaCartaNum);
+		pase.setForeground(colorCarta);
+		pase.setOpaque(false);
+		pase.setBorder(null);
+		pase.setBounds(450,264,33,20);
+		estadisticas.add(pase);
+		panel.add(pase);
+		
+		
+		regate.setHorizontalAlignment(SwingConstants.RIGHT);
+		regate.setFont(fuentaCartaNum);
+		regate.setForeground(colorCarta);
+		regate.setOpaque(false);
+		regate.setBorder(null);
+		regate.setBounds(540,217,33,20);
+		estadisticas.add(regate);
+		panel.add(regate);
+		
+		
+		defensa.setHorizontalAlignment(SwingConstants.RIGHT);
+		defensa.setFont(fuentaCartaNum);
+		defensa.setForeground(colorCarta);
+		defensa.setOpaque(false);
+		defensa.setBorder(null);
+		defensa.setBounds(540,240,33,20);
+		estadisticas.add(defensa);
+		panel.add(defensa);
+		
+		
+		fisico.setHorizontalAlignment(SwingConstants.RIGHT);
+		fisico.setFont(fuentaCartaNum);
+		fisico.setForeground(colorCarta);
+		fisico.setOpaque(false);
+		fisico.setBorder(null);
+		fisico.setBounds(540,264,33,20);
+		estadisticas.add(fisico);
+		panel.add(fisico);
+		
+		JLabel flechaImg = new JLabel();
+		flechaImg.setBounds(200,100,200,130);
+		 
+		ImageIcon flecha = new ImageIcon("JFRAME\\imgs\\flecha.png");
+		Icon flecha2 = new ImageIcon(flecha.getImage().getScaledInstance(flechaImg.getWidth(), flechaImg.getHeight(), Image.SCALE_SMOOTH));
+		flechaImg.setIcon(flecha2);
+		panel.add(flechaImg);
+		
+		
+		//Imagen de la carta sobre la que van todos los textfields y el nombre
+		JLabel cartaImg2 = new JLabel();
+		cartaImg2.setBounds(400,0,260,335);		
+		
+		ImageIcon carta4 = new ImageIcon("JFRAME\\imgs\\carta.png");
+		Icon carta3 = new ImageIcon(carta4.getImage().getScaledInstance(cartaImg2.getWidth(), cartaImg2.getHeight(), Image.SCALE_SMOOTH));
+		cartaImg2.setIcon(carta3);
+		panel.add(cartaImg2);
+		
+		
+		
+		
 		enviar.addActionListener(e ->{
 			
+			//Este int es para todos los requisitos, si se cumplen todos, se crearán el futbolista y la carta
+			int reqGeneral = 0;
+			
 			int requisitos = 0;	//variable para que antes de crear el futbolista cumpla los requisitos de entrada de datos
-			boolean cumple = false;
 			
 			//boolean para cada requisito
 			boolean dniReq = false,dniIgual = false, dni1 = false, dni2=false, salId = false, comaPunto = false;
 			String errores = "Errores: \n";
 			
-			if(cont==0) {
-				
+			
+			
+			
 				//Con esto compruebo si el dni esta vacio o hay un espacio, asi tambien se hace un campo obligatorio
 				if (dniText.getText().equals("") || dniText.getText().contains(" ")) {
 					dniReq = true;
@@ -258,6 +342,7 @@ public class frameFutbol{
 				//comprobar que el dni tenga 4 caracteres
 				if(dniText.getText().length() == 4) {
 					requisitos++;
+					reqGeneral++;
 				}else {
 					errores += "- El DNI debe tener 4 caracteres \n";
 				}
@@ -281,6 +366,7 @@ public class frameFutbol{
 					errores += "- El DNI debe contener al menos una letra \n";
 				}else {
 					requisitos++;
+					reqGeneral++;
 				}
 				
 				//comprobar si el dni tiene numeros
@@ -295,6 +381,7 @@ public class frameFutbol{
 					errores += "- El DNI debe contener al menos un numero \n";
 				}else {
 					requisitos++;
+					reqGeneral++;
 				}
 					
 				
@@ -304,6 +391,7 @@ public class frameFutbol{
 						
 				}else {
 					requisitos++;
+					reqGeneral++;
 				}
 				
 				//comprobar si el salario y el ID de equipo contienen alguna letra
@@ -317,12 +405,14 @@ public class frameFutbol{
 					errores += "- El salario o el ID de equipo contienen un letra \n";
 				}else {
 					requisitos++;
+					reqGeneral++;
 				}
 				
 				if (salarioText.getText().contains(" ") || dniText.getText().contains(" ")) {
 					errores += "- El salario o el ID de equipo contienen un espacio \n";
 				}else {
 					requisitos++;
+					reqGeneral++;
 				}
 				
 				for(int i = 0; i < listaValoresFut.size();i++) {
@@ -335,27 +425,26 @@ public class frameFutbol{
 					errores += "- No se puede introducir ningún punto o coma\n";
 				}else {
 					requisitos++;
+					reqGeneral++;
 				}
 				
 
 				
 				if(dniReq) {
 					JOptionPane.showMessageDialog(ventana, "El DNI es un campo obligatorio y no puede\ntener espacios", 
-							"No se ha creado el futbolista", JOptionPane.ERROR_MESSAGE);
+							"Error futbolista", JOptionPane.ERROR_MESSAGE);
 				}else {
 					if(dniIgual) {
 						JOptionPane.showMessageDialog(ventana, "El DNI ya existe, pon otro", 
-								"No se ha creado el futbolista", JOptionPane.ERROR_MESSAGE);
+								"Error futbolista", JOptionPane.ERROR_MESSAGE);
 					}else {
 				
-						if(requisitos < 7) {
+						if(requisitos != 7) {
 								JOptionPane.showMessageDialog(ventana, errores, 
-										"No se ha creado el futbolista", JOptionPane.ERROR_MESSAGE);
+										"Error futbolista", JOptionPane.ERROR_MESSAGE);
 							
-						}else {
-							JOptionPane.showMessageDialog(ventana, "Se han introducido bien los datos", "Datos correctos", JOptionPane.INFORMATION_MESSAGE);
-							cumple = true;
 						}
+						
 					}
 				}
 			
@@ -376,129 +465,8 @@ public class frameFutbol{
 				if(idequipoText.getText().equals("")) {
 					idequipoText.setText("0");
 				}
-				
-				
-				if(cumple == true) {
-					
-		
-					ventana.setSize(800, 400);
-					panelBloqueo.setBounds(0,0,230,400);
-					candadoImg.setLocation(160, 10);
-					dniText.setEditable(false);
-					nombreText.setEditable(false);
-					apellidoText.setEditable(false);
-					salarioText.setEditable(false);
-					idequipoText.setEditable(false);
-					cartaImg.setVisible(false);
-					enviar.setLocation(650, 290);
-					cont++;
-					
-					//Parte de la carta
-					Color colorCarta = new Color(70, 57, 12);
-					Font fuentaCartaNum = new Font("arial",Font.BOLD,22);
-					
-					JLabel nombreFut = new JLabel(nombreText.getText().toUpperCase(), SwingConstants.CENTER);	//esto centra el texto del JLabel
-					nombreFut.setFont(new Font("arial",Font.BOLD,20));
-					nombreFut.setForeground(colorCarta);
-					nombreFut.setBounds(400,185,260,20);
-					panel.add(nombreFut);
-					
-					
-					//Labels para avisar al usuario de cómo se introduce un valor
-					JLabel aviso = new JLabel("Pon el cursor al lado");
-					aviso.setFont(new Font("arial",0,12));
-					aviso.setBounds(650,220,150,12);
-					panel.add(aviso);
-					
-					JLabel aviso2 = new JLabel("de cada estadística");
-					aviso2.setFont(new Font("arial",0,12));
-					aviso2.setBounds(650,234,150,12);
-					panel.add(aviso2);
-					
-					JLabel aviso3 = new JLabel("para introducir un valor");
-					aviso3.setFont(new Font("arial",0,12));
-					aviso3.setBounds(650,248,150,12);
-					panel.add(aviso3);
-					
-					/*
-					 * Aqui van los JTextFields para poner los numeros de cada atributo.
-					 * Estos ya están creados de antes para lugo poder crear la carta.
-					 * Estos no podran ser mayores a 100 ni menores a 0. Si se deja cualquiera
-					 * vacio, este sera reconocido como 0. Tambien estarán todos en un arraylist
-					 * para luego hacer los requisitos, será más facil manejarlos así.
-					 */
-					
-					
-					ritmo.setHorizontalAlignment(SwingConstants.RIGHT);
-					ritmo.setFont(fuentaCartaNum);
-					ritmo.setForeground(colorCarta);
-					ritmo.setOpaque(false);
-					ritmo.setBorder(null);
-					ritmo.setBounds(450,217,33,20);
-					estadisticas.add(ritmo);
-					panel.add(ritmo);
-					
-					
-					tiro.setHorizontalAlignment(SwingConstants.RIGHT);
-					tiro.setFont(fuentaCartaNum);
-					tiro.setForeground(colorCarta);
-					tiro.setOpaque(false);
-					tiro.setBorder(null);
-					tiro.setBounds(450,240,33,20);
-					estadisticas.add(tiro);
-					panel.add(tiro);
-					
-					
-					pase.setHorizontalAlignment(SwingConstants.RIGHT);
-					pase.setFont(fuentaCartaNum);
-					pase.setForeground(colorCarta);
-					pase.setOpaque(false);
-					pase.setBorder(null);
-					pase.setBounds(450,264,33,20);
-					estadisticas.add(pase);
-					panel.add(pase);
-					
-					
-					regate.setHorizontalAlignment(SwingConstants.RIGHT);
-					regate.setFont(fuentaCartaNum);
-					regate.setForeground(colorCarta);
-					regate.setOpaque(false);
-					regate.setBorder(null);
-					regate.setBounds(540,217,33,20);
-					estadisticas.add(regate);
-					panel.add(regate);
-					
-					
-					defensa.setHorizontalAlignment(SwingConstants.RIGHT);
-					defensa.setFont(fuentaCartaNum);
-					defensa.setForeground(colorCarta);
-					defensa.setOpaque(false);
-					defensa.setBorder(null);
-					defensa.setBounds(540,240,33,20);
-					estadisticas.add(defensa);
-					panel.add(defensa);
-					
-					
-					fisico.setHorizontalAlignment(SwingConstants.RIGHT);
-					fisico.setFont(fuentaCartaNum);
-					fisico.setForeground(colorCarta);
-					fisico.setOpaque(false);
-					fisico.setBorder(null);
-					fisico.setBounds(540,264,33,20);
-					estadisticas.add(fisico);
-					panel.add(fisico);
-					
-					
-					//Imagen de la carta sobre la que van todos los textfields y el nombre
-					JLabel cartaImg2 = new JLabel();
-					cartaImg2.setBounds(400,0,260,335);		
-					
-					ImageIcon carta4 = new ImageIcon("JFRAME\\imgs\\carta.png");
-					Icon carta3 = new ImageIcon(carta4.getImage().getScaledInstance(cartaImg2.getWidth(), cartaImg2.getHeight(), Image.SCALE_SMOOTH));
-					cartaImg2.setIcon(carta3);
-					panel.add(cartaImg2);
-				}
-			}else {
+			
+
 				
 				/*
 				 *Esta parte es de cuando pulsamos el boton la segunda vez, seria para crear el
@@ -510,97 +478,90 @@ public class frameFutbol{
 				 *4.EL valor no puede tener ni coma ni punto.
 				 */
 				
-				//Booleans para los requisitos
-				boolean noLetra = false, numNoValido = false, espacio = false, puntoComa = false, vacio = false;
-				
-				//String para avisar de cualquier error
-				String errorCarta = "Errores:\n";
-				
-				//int para contar los requisitos que se cumplen
-				int reqCarta = 0;
 				
 				
-				//comprobar si algún valor tiene una letra
-				for(int i = 0; i < estadisticas.size();i++) {
-					for(int m = 0; m < letras.length;m++) {
-						if (estadisticas.get(i).getText().contains(letras[m])) {
-							noLetra = true;
-						}
+			String errorCarta = "Errores:\n";
+			int reqCarta = 0;
+			
+			boolean letraTiene = false, numValido = false, vacio = false, comPunto = false;
+			
+			
+			
+			//Comprobar si algún valor contiene una letra
+			for(int i = 0; i < estadisticas.size(); i++) {
+				for (int x = 0; x < letras.length; x++) {
+					if(estadisticas.get(i).getText().contains(letras[x])) {
+						letraTiene = true;
 					}
 				}
-				
-				if(noLetra) {
-					JOptionPane.showMessageDialog(ventana, "No se pueden introducir letras", "ERROR", JOptionPane.ERROR_MESSAGE);
-				}else {
-					
-					//Comprobar si el numero es un valor entre 0 y 99
-					for(int i = 0; i < estadisticas.size();i++) {
-						if(estadisticas.get(i).getText().contains("-") || estadisticas.get(i).getText().length() == 3) {
-							numNoValido = true;
-						}
-					}
-					
-					if(numNoValido) {
-						errorCarta += "- El valor tiene que ser entre 0 y 99\n";
-					}else {
-						reqCarta++;
-					}
-					
-					
-					//comprobar si está vacío o hay algún espacio. Si está vacio cambio a cero el valor de cada estadística					
-					
-					for(int i = 0; i < estadisticas.size();i++) {	
-						if(estadisticas.get(i).getText().equals("")) {
-							vacio = true;
-						}else if(estadisticas.get(i).getText().contains(" ")) {
-							espacio = true;
-						}
-					}
-					
-					if(vacio) {
-						errorCarta += "- No puedes dejar el valor vacío\n";
-					}else {
-						reqCarta++;
-					}
-					
-					if (espacio) {
-						errorCarta += "- No puede haber espacios\n";
-					}else {
-						reqCarta++;
-					}
-					
-					//comprobar si hay alguna coma o punto
-					for(int i = 0; i < estadisticas.size();i++) {
-						if (estadisticas.get(i).getText().contains(",") || estadisticas.get(i).getText().contains(".")) {
-							puntoComa = true;
-						}
-					}
-					
-					if(puntoComa) {
-						errorCarta += "- No puede haber ni puntos ni comas\n";
-					}else {
-						reqCarta++;
-					}
-					
-					if(reqCarta == 4) {
-						JOptionPane.showMessageDialog(ventana, "Jugador y carta creados", "Éxito",JOptionPane.INFORMATION_MESSAGE);
-						Futbol2.insFutbolista(dniText.getText().toUpperCase(), nombreText.getText(), apellidoText.getText(),
-								Integer.parseInt(salarioText.getText()), Integer.parseInt(idequipoText.getText()));
-						
-						cartaFut.insCarta(dniText.getText().toUpperCase(), Integer.parseInt(ritmo.getText()), 
-								Integer.parseInt(tiro.getText()), Integer.parseInt(pase.getText()), 
-								Integer.parseInt(regate.getText()), Integer.parseInt(defensa.getText()), Integer.parseInt(fisico.getText()));
-						cont = 0;
-						ventana.setVisible(false);
-					}else {
-						JOptionPane.showMessageDialog(ventana, errorCarta, "No se ha podido crear la carta", JOptionPane.ERROR_MESSAGE);
-					}
-					
-				}
-				
-				
 			}
 			
+			if (letraTiene) {
+				errorCarta += "- No se admiten letras\n";
+			}else {
+				reqCarta++;
+				reqGeneral++;
+			}
+			
+			//comprobar si algún valor es negativo o es mayor de 100
+			for(int i = 0; i < estadisticas.size(); i++) {
+				if (estadisticas.get(i).getText().startsWith("-") || estadisticas.get(i).getText().length() >= 3) {
+					numValido = true;
+				}
+			}
+			
+			if(numValido) {
+				errorCarta += "- Solo se pueden poner números entre 0 - 99\n";
+			}else {
+				reqCarta++;
+				reqGeneral++;
+			}
+			
+			//comprobar si algún valor es vacío o tiene espacios
+			for (int i = 0; i < estadisticas.size(); i++) {
+				if(estadisticas.get(i).getText().equals("") || estadisticas.get(i).getText().contains(" ")) {
+					vacio = true;
+				}
+			}
+			
+			if (vacio) {
+				errorCarta += "- No se puede dejar ningún\nvalor vacío ni puede tener espacios\n";
+			}else {
+				reqCarta++;
+				reqGeneral++;
+			}
+			
+			//Comprobar si algún valor tiene coma o punto
+			for(int i = 0; i < estadisticas.size(); i++) {
+				if (estadisticas.get(i).getText().contains(",") || estadisticas.get(i).getText().contains(".")) {
+					comPunto = true;
+				}
+			}
+			
+			if (comPunto) {
+				errorCarta += "- No se pueden poner comas ni puntos\n";
+			}else {
+				reqCarta++;
+				reqGeneral++;
+			}
+			
+			if (reqCarta != 4) {
+				JOptionPane.showMessageDialog(ventana, errorCarta, "Error carta", JOptionPane.ERROR_MESSAGE);
+			}
+			
+			if(reqGeneral == 11) {
+				JOptionPane.showMessageDialog(ventana, "Jugador y carta creados", "exito", JOptionPane.INFORMATION_MESSAGE);
+				
+				Futbol2.insFutbolista(dniText.getText(),nombreText.getText(), apellidoText.getText(), 
+						Integer.parseInt(salarioText.getText()), Integer.parseInt(idequipoText.getText()));
+				
+				cartaFut.insCarta(dniText.getText(), Integer.parseInt(ritmo.getText()), Integer.parseInt(tiro.getText()), 
+						Integer.parseInt(pase.getText()), Integer.parseInt(regate.getText()), 
+						Integer.parseInt(defensa.getText()), Integer.parseInt(fisico.getText()));
+				
+				ventana.setVisible(false);
+			}
+
 		});
 		
 		ventana.setVisible(true);
@@ -668,6 +629,7 @@ public class frameFutbol{
 		
 		JButton boton = new JButton("Enviar");
 		boton.setBounds(100,300,100,50);
+		boton.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		panelValores.add(boton);
 		
 		boton.addActionListener(e ->{
@@ -995,97 +957,246 @@ public class frameFutbol{
 		ventanaInicial.setLocationRelativeTo(null);
 		ventanaInicial.setResizable(false);
 		
-		Font fuenteBtn = new Font("Arial",Font.BOLD,14);
+		
+		Font fuenteBtn = new Font("Arial",Font.BOLD,15);
+		Color colorBtn = new Color(236, 236, 236);
+		
+		ArrayList<JButton>botones = new ArrayList<JButton>();
 		
 		ImageIcon icono = new ImageIcon("JFRAME\\imgs\\icono-pelota.png");
 		ventanaInicial.setIconImage(icono.getImage());
-		
-		
-		JPanel panelGeneral = new JPanel();
-		panelGeneral.setSize(350, 450);
-		panelGeneral.setLayout(new BorderLayout());
-		
-		JPanel panelTitulo = new JPanel(new FlowLayout(FlowLayout.CENTER));
-		panelTitulo.setSize(350, 100);
-		panelTitulo.setBorder(BorderFactory.createEmptyBorder());
-		JLabel titulo = new JLabel("MENU FUTBOL");
-		titulo.setFont(new Font("Arial",Font.BOLD,19));
-		
-		panelTitulo.add(titulo);
-		panelGeneral.add(panelTitulo, BorderLayout.NORTH);
-		
+
 		
 		JPanel panelBotones = new JPanel();
-		panelBotones.setSize(350, 350);
+		panelBotones.setBounds(0,100,350, 450);
 		panelBotones.setLayout(null);
+		panelBotones.setBackground(new Color(40, 150, 45));
 		
+		JPanel panelTitulo = new JPanel();
+		panelTitulo.setBounds(0,0,350,30);
+		panelTitulo.setLayout(null);
+		panelTitulo.setBackground(new Color(31, 111, 34));
+		panelBotones.add(panelTitulo);
 		
+		JLabel titulo = new JLabel("MENU FUTBOL",SwingConstants.CENTER);
+		titulo.setFont(new Font("arial",Font.BOLD,19));
+		titulo.setBounds(0,5,350,19);
+		titulo.setForeground(new Color(246, 246, 246));
+		panelTitulo.add(titulo);
 		
 		JButton btn_vj = new JButton("Mostrar Jugadores");
-		btn_vj.setBounds(45, 20, 250, 50);
+		btn_vj.setBounds(45, 40, 250, 50);
 		btn_vj.setFont(fuenteBtn);
+		btn_vj.setBackground(colorBtn);
 		btn_vj.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		botones.add(btn_vj);
 		
 		JButton btn_ve = new JButton("Mostrar Equipos");
-		btn_ve.setBounds(45, 80, 250, 50);
+		btn_ve.setBounds(45, 100, 250, 50);
 		btn_ve.setFont(fuenteBtn);
+		btn_ve.setBackground(colorBtn);
 		btn_ve.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		botones.add(btn_ve);
 		
 		JButton btn_af = new JButton("Agregar Jugador y carta");
-		btn_af.setBounds(45, 140, 250, 50);
+		btn_af.setBounds(45, 160, 250, 50);
 		btn_af.setFont(fuenteBtn);
+		btn_af.setBackground(colorBtn);
 		btn_af.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		botones.add(btn_af);
 		
 		JButton btn_ae = new JButton("Agregar Equipo");
-		btn_ae.setBounds(45, 200, 250, 50);
+		btn_ae.setBounds(45, 220, 250, 50);
 		btn_ae.setFont(fuenteBtn);
+		btn_ae.setBackground(colorBtn);
 		btn_ae.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		botones.add(btn_ae);
 		
 		JButton btn_idf = new JButton("Mostrar Jugador por ID");
-		btn_idf.setBounds(45, 260, 250, 50);
+		btn_idf.setBounds(45, 280, 250, 50);
 		btn_idf.setFont(fuenteBtn);
+		btn_idf.setBackground(colorBtn);
 		btn_idf.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		botones.add(btn_idf);
 		
 		JButton btn_ide= new JButton("Mostrar Equipo por ID");
-		btn_ide.setBounds(45, 320, 250, 50);
+		btn_ide.setBounds(45, 340, 250, 50);
 		btn_ide.setFont(fuenteBtn);
+		btn_ide.setBackground(colorBtn);
 		btn_ide.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		botones.add(btn_ide);
 		
 		
 		panelBotones.add(btn_vj);panelBotones.add(btn_ve);panelBotones.add(btn_af);panelBotones.add(btn_ae);panelBotones.add(btn_idf);panelBotones.add(btn_ide);
-		panelGeneral.add(panelBotones, BorderLayout.CENTER);
-		ventanaInicial.add(panelGeneral);
+		ventanaInicial.add(panelBotones);
+		
+		//Esto es para quitarle el borde a todos los botones
+		for(int i = 0; i < botones.size();i++) {
+			botones.get(i).setBorder(null);
+		}
 		
 		ventanaInicial.setVisible(true);
 		
 		
-		btn_vj.addActionListener(e ->{
-				mostrarJug(icono);
-		});
+		diseñoMain(botones, colorBtn, icono);
 		
-		btn_ve.addActionListener(e ->{
-			mostrarEquipos(icono);
-		});
-		
-		btn_af.addActionListener(e -> {
-			agregarFut(icono);
-		});
-		
-		btn_ae.addActionListener(e -> {
-			agregarEquipo(icono);
-		});
-		
-		btn_idf.addActionListener(e -> {
-			idJug(icono);
-		});
-		
-		btn_ide.addActionListener(e -> {
-			idEquipo(icono);
-		});
 	}
-
 	
+	//Aqui está el diseño
+	private static void diseñoMain(ArrayList<JButton> botones, Color colorBtn, ImageIcon icono) {
+		
+		//Queria hacer un arraylist para luego con un for añadir un MouseListener a cada boton pero no deja
+		botones.get(0).addMouseListener(new MouseListener() {
 			
-	
+			@Override
+			public void mouseReleased(MouseEvent e) {
+			}
+			
+			@Override
+			public void mousePressed(MouseEvent e) {
+				
+			}
+			
+			@Override
+			public void mouseExited(MouseEvent e) {
+				botones.get(0).setBackground(colorBtn);
+			}
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				botones.get(0).setBackground(new Color(183, 183, 183));
+			}
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				mostrarJug(icono);
+			}
+		});
+		
+		botones.get(1).addMouseListener(new MouseListener() {
+			
+			@Override
+			public void mouseReleased(MouseEvent e) {
+			}
+			
+			@Override
+			public void mousePressed(MouseEvent e) {
+				
+			}
+			
+			@Override
+			public void mouseExited(MouseEvent e) {
+				botones.get(1).setBackground(colorBtn);
+			}
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				botones.get(1).setBackground(new Color(183, 183, 183));
+			}
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				mostrarEquipos(icono);
+			}
+		});
+		
+		botones.get(2).addMouseListener(new MouseListener() {
+			
+			@Override
+			public void mouseReleased(MouseEvent e) {
+			}
+			
+			@Override
+			public void mousePressed(MouseEvent e) {
+				
+			}
+			
+			@Override
+			public void mouseExited(MouseEvent e) {
+				botones.get(2).setBackground(colorBtn);
+			}
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				botones.get(2).setBackground(new Color(183, 183, 183));
+			}
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				agregarFut(icono);
+			}
+		});
+		
+		botones.get(3).addMouseListener(new MouseListener() {
+			
+			@Override
+			public void mouseReleased(MouseEvent e) {
+			}
+			
+			@Override
+			public void mousePressed(MouseEvent e) {
+				
+			}
+			
+			@Override
+			public void mouseExited(MouseEvent e) {
+				botones.get(3).setBackground(colorBtn);
+			}
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				botones.get(3).setBackground(new Color(183, 183, 183));
+			}
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				agregarEquipo(icono);
+			}
+		});
+		
+		botones.get(4).addMouseListener(new MouseListener() {
+			
+			@Override
+			public void mouseReleased(MouseEvent e) {
+			}
+			
+			@Override
+			public void mousePressed(MouseEvent e) {
+				
+			}
+			
+			@Override
+			public void mouseExited(MouseEvent e) {
+				botones.get(4).setBackground(colorBtn);
+			}
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				botones.get(4).setBackground(new Color(183, 183, 183));
+			}
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				idJug(icono);
+			}
+		});
+		
+		botones.get(5).addMouseListener(new MouseListener() {
+			
+			@Override
+			public void mouseReleased(MouseEvent e) {
+			}
+			
+			@Override
+			public void mousePressed(MouseEvent e) {
+				
+			}
+			
+			@Override
+			public void mouseExited(MouseEvent e) {
+				botones.get(5).setBackground(colorBtn);
+			}
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				botones.get(5).setBackground(new Color(183, 183, 183));
+			}
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				idEquipo(icono);
+			}
+		});
+		
+		
+	}
 
 }
